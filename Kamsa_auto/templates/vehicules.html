@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- Section: Vehicles -->
+<section class="page">
+    <div class="entete">
+        <div>
+            <h2 class="title">Nos vehicules</h2>
+            <p class="subtitle">
+                Select from our curated range of world-class vehicles.
+            </p>
+        </div>    
+        <!-- FILTERS -->
+        <div class="filters">
+            <button class="filter-btn active">All</button>
+            <button class="filter-btn">Economy</button>
+            <button class="filter-btn">SUV</button>
+            <button class="filter-btn">Luxury</button>
+        </div>            
+    </div>
+
+    <!-- CARDS -->
+    <div class="vehicles-grid">
+
+        {% for vehicule in vehicules %}
+
+        <div class="card">
+
+            {% if vehicule.image %}
+                <img src="{{ vehicule.image.url }}" alt="{{ vehicule.name }}">
+            {% else %}
+                <img src="https://via.placeholder.com/400x250" alt="image">
+            {% endif %}
+
+            <div class="card-content">
+
+                <h2>{{ vehicule.name }}</h2>
+
+                <p class="marque">{{ vehicule.marque }}</p>
+
+                <p class="prix">
+                    {{ vehicule.prix_par_jour }} FCFA / jour
+                </p>
+
+                <p class="description">
+                    {{ vehicule.description|truncatewords:20 }}
+                </p>
+
+                <a href="{% url 'reservation_vehicule' vehicule.id %}" class="btn">
+                    Réserver
+                </a>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <p class="empty">
+            Aucun véhicule disponible.
+        </p>
+
+        {% endfor %}
+
+    </div>       
+
+    <div class="">
+        <!-- Dynamic Content -->
+    </div>
+</section>
+
+{% endblock %}

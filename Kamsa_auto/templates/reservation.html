@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="page">
+    <div class="reservation">
+        <h2>Réserver {{ vehicule.name }}</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Réserver</button>
+        </form>
+
+        <a href="/">Retour</a> 
+    </div>           
+</div>
+{% endblock %}
+

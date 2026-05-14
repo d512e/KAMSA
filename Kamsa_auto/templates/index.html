@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Section: Home -->
+<section id="home" class="">
+    <div class="accueil">
+        <img src="{% static 'img/bougouni2.png' %}" alt="Hero Car" class="bg">
+        <div class="voile"></div>
+        <div class="text">
+            <h1 class="slogan" id="">VOTRE MOBILITÉ, NOTRE PRIORITÉ</h1>
+            
+            <div id="" class="forms">
+                <form id="" class="form">
+                    <div class="text-left">
+                        <label class="label">Pickup Location</label>
+                        <div class="relative">
+                            <input type="text" placeholder="Ville ou Aeroport" class="date">
+                        </div>
+                    </div>
+                    <div class="text-left">
+                        <label class="label">Pickup Date</label>
+                        <input type="date" class="date">
+                    </div>
+                    <div class="text-left">
+                        <label class="label">Return Date</label>
+                        <input type="date" class="date">
+                    </div>
+                    <button type="submit" class="search"> SEARCH FLEET</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Advantages -->
+    <div class="avantages">
+        <div class="div-content">
+            <h3 class="">Tarification transparente</h3>
+            <p class="">Aucun frais caché, aucune surprise. Le prix affiché est exactement celui que vous payez pour votre expérience de conduite</p>
+        </div>
+
+        <div class="div-content">
+            <h3 class="">Flotte moderne</h3>
+            <p class="">Nos véhicules sont recent et intègrent les dernières innovations en matière de sécurité et de technologie.</p>
+        </div>
+
+        <div class="div-content">
+            <h3 class="">Disponible 24/7</h3>
+            <p class="">Assistance 24h/24 et 7j/7 pour tout, des demandes de réservation à l'assistance routière.</p>
+        </div>
+    </div>
+</section> 
+
+{% endblock %}

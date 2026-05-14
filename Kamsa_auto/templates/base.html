@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>KAMSA Auto</title>
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    </head>
+    <body>
+        <nav class="container-nav"> 
+            <a href="{% url "accueil" %}" class="logo">KAMSA AUTO</a>
+            <div class="nav-links">
+                <a href="{% url "accueil" %}">Accueil</a>
+                <a href="{% url "vehicules" %}">Vehicules</a>
+                <a href="{% url "reservation" %}">Réserver</a>
+                <a href="{% url "compte" %}">Compte</a>
+                <a href="{% url "contact" %}" class="btn btn-outline-primary">Contact</a>
+            </div>
+                
+        </nav>        
+        {% block content %}
+
+        {% endblock %}
+        <footer class="">
+            <div class="footer-div">
+                <div class="slogan2">
+                    <div class="first">
+                        <a class="logo" style="color: white">KAMSA AUTO</a>
+                    </div>
+                    <p class="" style="color: rgb(156 163 175 / var(--tw-text-opacity, 1));">Redefining the car rental experience with premium service, transparent pricing, and a modern fleet of world-class vehicles.</p>
+                </div>
+
+                <div>
+                    <div class="first"><h4 style="color: white; font-size: 16px">Notre Compagnie</h4></div>
+                        <ul style="color: rgb(156 163 175 / var(--tw-text-opacity, 1));">
+                            <li><a href="#" class="">About Us</a></li>
+                            <li><a href="#" class="">Terms & Conditions</a></li>
+                            <li><a href="#" class="">Privacy Policy</a></li>
+                        </ul>
+                </div>
+
+                <div>
+                    <div class="first"><h4 style="color: white; font-size: 16px">Nos Reseaux</h4></div>
+                    <div class="" >
+                        <a href="#" class=""><i data-lucide="instagram" class="w-4 h-4"></i></a>
+                        <a href="#" class=""><i data-lucide="linkedin" class="w-4 h-4"></i></a>
+                        <a href="#" class=""><i data-lucide="twitter" class="w-4 h-4"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="end" style="color: rgb(156 163 175 / var(--tw-text-opacity, 1))">
+                © 2026 KAMSA Auto. Tous droits réservés.
+             </div>
+        </footer>
+
+    
+    </body>
+</html>

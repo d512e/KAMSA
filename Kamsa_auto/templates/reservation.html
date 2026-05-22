@@ -2,18 +2,44 @@
 {% load static %}
 
 {% block content %}
-<div class="page">
-    <div class="reservation">
-        <h2>Réserver {{ vehicule.name }}</h2>
 
-        <form method="POST">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Réserver</button>
-        </form>
+<section class="page">
+        <div class="titre">
+            <h2 class="">Completez Votre Reservation</h2>
+            <p class="">Personalize your journey with our flexible options.</p>
+        </div>
 
-        <a href="/">Retour</a> 
-    </div>           
-</div>
+        <div class="corps">
+            <div class="information">
+                <div class="padding-redius">
+                    <h3 class="">Informations Personnele</h3>
+                </div>
+                <div class="flex-div">
+                    <input type="text" placeholder="Prenom" class="form-input">
+                    <input type="text" placeholder="Nom" class="form-input">
+                </div>
+                <input type="email" placeholder="Email" class="form-input">
+                <input type="tel" placeholder="Telephone" class="form-input">
+            </div>
+
+            <div class="information" style="background-color: var(--brand-dark);">
+                <h3 class="text-white">Résumé de la location</h3>
+                <hr class="">
+                <div class="">
+                    <div>
+                        <p class="text-white">Prix Total</p>
+                        <h4 class="text-white">0 FCFA</h4>
+                    </div>
+                    <span class="text-white">Incl. VAT</span>
+                </div>
+
+                <type="button" class="btn btn-custom">
+                    CONFIRMER
+                </button>
+            </div>
+        </div>
+</section>
+
+           
 {% endblock %}
 

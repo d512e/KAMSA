@@ -7,6 +7,7 @@
 
 
 :root {
+    --brand-light-green: #076048;
     --brand-green: #064E3B;
     --brand-dark: #111827;
     --bg-light: #F3F4F6;
@@ -48,11 +49,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
+    padding-top: 6rem;
+    padding-bottom: 6rem;
     
 }
+section {
+    min-height: 100vh;
 
+}
 
 
 
@@ -78,13 +82,14 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
     background-color: rgb(255 255 255 / 0.9);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(256, 232, 240, 0.6);
+    box-shadow: 0 2px 3px -1px rgb(0 0 0 / 0.1);
     width: 100%;
     display: flex; /* Aligner les éléments */
     justify-content: space-between; /* Espacer les liens */
     box-sizing: border-box;
     border-width: 0;
     border-style: solid;
-    padding: 16px 48px;;
+    padding: 16px 48px;
 }
 
 
@@ -131,8 +136,6 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 .btn-outline-primary {
     color: #064E3B;
     border-color: #e5e7eb;
-    
-    
   }
   
   .btn-outline-primary:hover,
@@ -246,7 +249,6 @@ h3 {
             Vehicules Section
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 .entete {
-    margin-top: 5rem;
     display: flex;
     justify-content: space-between;
 }
@@ -347,9 +349,64 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
 
 
+/*_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+            
+            Reservation Section
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
-.reservation {
-    padding-top: 5rem;
+
+.corps {
+    padding-top: 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+
+}
+.titre {
+    text-align: center;
+}
+
+.information {
+    display: grid;
+    grid-template-columns: auto;
+    max-width: 28rem;      
+    gap: 1rem;
+    padding: 32px;
+    border: 1px solid rgb(238 239 241 / var(--tw-border-opacity, 1));
+    border-radius: 0.5rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+.padding-redius {
+    max-height: 12px;
+}
+h3 {
+    text-align: center;
+}
+.flex-div {
+    display: flex;
+    gap: 1rem;
+}
+.form-input {
+    width: 100%;
+    padding: 0rem 4rem;
+    background-color: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.375rem;
+
+}
+.text-white{
+    text-decoration: white;
+}
+.btn-custom {
+    background-color: var(--brand-green) !important; /* Couleur de fond */
+    border-color: var(--brand-green) !important;      /* Couleur de la bordure */
+    color: #ffffff !important;             /* Couleur du texte */
+}
+/* Changement de couleur au survol (hover) */
+.btn-custom:hover {
+    background-color: var(--brand-light-green) !important;
+    border-color: var(--brand-light-green) !important;
 }
 
 

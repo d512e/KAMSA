@@ -15,4 +15,3 @@ class ReservationAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'vehicule', 'date_debut', 'date_fin', 'status')
     list_filter = ('status', 'date_debut')
     search_fields = ('user__username', 'vehicule__nom')
-    autocomplete_fields = ('user', 'vehicule')

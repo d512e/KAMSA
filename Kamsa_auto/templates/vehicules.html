@@ -1,42 +1,47 @@
+
 {% extends 'base.html' %}
 {% load static %}
 
 {% block content %}
 
 <!-- Section: Vehicles -->
-<section class="page">
-    <div class="entete">
-        <div>
-            <h2 class="title">Nos vehicules</h2>
-            <p class="subtitle">
-                Select from our curated range of world-class vehicles.
-            </p>
-        </div>    
-        <!-- FILTERS -->
-        <div class="filters">
-            <button class="filter-btn active">All</button>
-            <button class="filter-btn">Economy</button>
-            <button class="filter-btn">SUV</button>
-            <button class="filter-btn">Luxury</button>
+<section class="page-section bg-gray-50 py-24 hidden fade-in">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-12 py1 gap-6">
+            <div>
+                <h2 class="text-3xl font-montserrat font-bold mb-2 mt-1">Nos vehicules</h2>
+                <p class="text-gray-500">
+                    Faites votre choix parmi notre sélection de véhicules d'exception.
+                </p>
+            </div>    
+            <!-- FILTERS -->
+            <div class="flex flex-wrap gap-2 py-1py">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="economique">Économique</button>
+                <button class="filter-btn" data-filter="suv">SUV et 4x4</button>
+                <button class="filter-btn" data-filter="utilitaire">Utilitaires</button>
+                <button class="filter-btn" data-filter="luxe">Luxe</button>
+            </div>
         </div>            
     </div>
 
     <!-- CARDS -->
-    <div class="vehicles-grid">
+    <div class="vehicles-grid px-6">
 
         {% for vehicule in vehicules %}
 
-        <div class="card">
+        <!-- Ajout de la catégorie dynamique sur la carte pour le filtrage JS -->
+        <div class="card" data-category="{{ vehicule.categorie }}">
 
             {% if vehicule.image %}
-                <img src="{{ vehicule.image.url }}" alt="{{ vehicule.name }}">
+                <img src="{{ vehicule.image.url }}" alt="{{ vehicule.nom }}">
             {% else %}
                 <img src="https://via.placeholder.com/400x250" alt="image">
             {% endif %}
 
             <div class="card-content">
 
-                <h2>{{ vehicule.name }}</h2>
+                <h2>{{ vehicule.nom }}</h2>
 
                 <p class="marque">{{ vehicule.marque }}</p>
 
@@ -68,5 +73,8 @@
         <!-- Dynamic Content -->
     </div>
 </section>
+
+<!-- Appel de votre script de filtrage depuis les fichiers statiques -->
+<script src="{% static 'js/filtre_vehicules.js' %}"></script>
 
 {% endblock %}

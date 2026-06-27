@@ -5,15 +5,10 @@
         <meta charset="utf-8">
         <title>KAMSA Auto</title>
         <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-        <script src="{% static 'js/bootstrap.min.js' %}"></script>
-        <script src="{% static 'js/filtre_vehicules.js' %}"></script>
     </head>
     <body>
         <nav class="container-nav"> 
-            <a href="{% url "accueil" %}" class="navbar-logo">
-                <img src="{% static "img/logo.png" %}" alt="Nom du site">
-                <span>KAMSA AUTO</span>
-            </a>
+            <a href="{% url "accueil" %}" class="logo">KAMSA AUTO</a>
             <div class="nav-links">
                 <a href="{% url "accueil" %}">Accueil</a>
                 <a href="{% url "vehicules" %}">Vehicules</a>
@@ -28,6 +23,60 @@
                 
         </nav>        
         {% block content %}
+
+        <section class="page-section py-24 fade-in">
+            <h1>Mon Profil</h1>
+
+            <p><strong>Nom :</strong> {{ request.user.last_name }}</p>
+    
+            <p><strong>Prénom :</strong> {{ request.user.first_name }}</p>
+    
+            <p><strong>Email :</strong> {{ request.user.email }}</p>
+    
+            <p><strong>Téléphone :</strong>
+            {{ request.user.client.telephone }}
+            </p>
+    
+            <hr>
+    
+            <h2>Mes Réservations</h2>
+    
+            <table border="1">
+                <tr>
+                    <th>Véhicule</th>
+                    <th>Date début</th>
+                    <th>Date fin</th>
+                </tr>
+    
+                {% for reservation in reservations %}
+                <tr>
+                    <td>{{ reservation.vehicule }}</td>
+                    <td>{{ reservation.date_debut }}</td>
+                    <td>{{ reservation.date_fin }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3">
+                        Aucune réservation.
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+    
+            <br>
+    
+            <a href="{% url 'modifier_profil' %}">
+                Modifier mes informations
+            </a>
+    
+            <br><br>
+    
+            <a href="{% url 'deconnexion' %}">
+                Déconnexion
+            </a>
+
+        </section>
+
 
         {% endblock %}
         <footer class="">
@@ -66,3 +115,4 @@
     
     </body>
 </html>
+

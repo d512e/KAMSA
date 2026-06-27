@@ -2,71 +2,56 @@
 {% load static %}
 
 {% block content %}
-<div class="page">
-    <!-- Section: Contact -->
-    <section class="">
-        <div class="">
-            <div class="corps">
-                <div class="information">
-                    <h2 class="">Entrer en contact</h2>
-                    <p class="">Notre équipe est disponible 24h/24 et 7j/7 pour vous accompagner tout au long de votre voyage.</p>
-                    
-                    <div class="">
-                        <div class="">
-                            <div class="">
-                                <i data-lucide="" class=""></i>
-                            </div>
-                            <div>
-                                <h4 class="">Notre Siège</h4>
-                                <p class="">Route de Koulouba, BP 159<br>Bamako, Mali</p>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="">
-                                <i data-lucide="" class=""></i>
-                            </div>
-                            <div>
-                                <h4 class="font-bold mb-1">Service client</h4>
-                                <p class="text-gray-500">+223 20 20 21 21 (Support 24/7)</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3892.6436655795387!2d-8.004618299999999!3d12.671353199999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xe51cd9f84c5ed55%3A0x9afdec32c23fb637!2sLa%20Route%20de%20Koulouba%20(Palais%20Presidential)!5e0!3m2!1sfr!2sml!4v1779308028095!5m2!1sfr!2sml" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                    </div>
-                </div>
-
-                <div class="">
-                    <div class="">
-                        <div class="">
-                            <label class="">Full Name</label>
-                            <input type="text" class="">
-                        </div>
-                        <div class="">
-                            <label class="">Email</label>
-                            <input type="email" class="">
-                        </div>
-                        <div class="">
-                            <label class="">Subject</label>
-                            <select class="">
-                                <option>General Inquiry</option>
-                                <option>Corporate Partnership</option>
-                                <option>Roadside Assistance</option>
-                                <option>Press</option>
-                            </select>
-                        </div>
-                        <div class="">
-                            <label class="">Message</label>
-                            <textarea rows="4" class=""></textarea>
-                        </div>
-                        <button type="submit" class="">SEND MESSAGE</button>
-                    </div>
+<!-- Section: Contact -->
+<section class="page fade-in">
+    <!-- Corps -->
+    <div class="corps2 px-6">
+        <div class="item1 grid-cols-1">
+            <!-- Text -->
+            <h2 class="">Entrer en contact</h2>
+            <p class="">Notre équipe est disponible 24h/24 et 7j/7 pour vous accompagner tout au long de votre voyage.</p> 
+            <div>
+                <h4 class="">Notre Siège</h4>
+                <p class="">KOROGORO, Bougouni Cercle,<br>Sikasso, Mali</p>
+            </div>
+            <div>
+                <div>
+                    <h4 class="font-bold mb-1">Service client</h4>
+                    <p class="text-gray-500">+223 20 20 21 21 (Support 24/7)</p>
                 </div>
             </div>
+            <!-- Maps -->
+            <div class="carte-conteneur">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2003215.1569205378!2d-7.37223645!3d11.2959484!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xe4da6bb18213ffd%3A0x4081d3fa3f3453dc!2sBougouni!5e0!3m2!1sfr!2sml!4v1780007806118!5m2!1sfr!2sml" allowfullscreen="" referrerpolicy="no-referrer-when-downgrade" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+              </div>
         </div>
-    </section>
-</div>
+
+        <div class="item2 bg-color grid-cols-1">
+            <div class="">
+                <label class="text-xs font-bold uppercase text-gray-500">Nom complet</label>
+                <input type="text" class="w-full px-4 py-3 bg-white border border-gray-200 rounded outline-none focus:border-brand-green">
+            </div>
+            <div class="">
+                <label class="text-xs font-bold uppercase text-gray-500">Email</label>
+                <input type="email" class="w-full px-4 py-3 bg-white border border-gray-200 rounded outline-none focus:border-brand-green">
+            </div>
+            <div class="width-100">
+                <label class="text-xs font-bold uppercase text-gray-500">Sujet</label>
+                <select class="w-full px-4 py-3 bg-white border border-gray-200 rounded outline-none focus:border-brand-green">
+                    <option>Renseignements généraux</option>
+                    <option>Partenariat d'entreprise</option>
+                    <option>Assistance routière</option>
+                    <option>Autre</option>
+                </select>
+            </div>
+            <div class="width-100">
+                <label class="text-xs font-bold uppercase text-gray-500">Message</label>
+                <textarea rows="4" class="w-full px-4 py-3 bg-white border border-gray-200 rounded outline-none focus:border-brand-green"></textarea>
+            </div>
+            <button type="submit" class="btn btn-custom">Envoyer</button>
+        </div>
+    </div>
+</section>
         
 
 {% endblock %}

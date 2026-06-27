@@ -1,0 +1,37 @@
+@login_required
+def reservation_vehicule(request, vehicule_id):
+    vehicule = get_object_or_404(Vehicule, id=vehicule_id)
+    avec_chauffeur = "chauffeur" in request.POST
+
+    if request.method == 'POST':
+        prix_total = vehicule.prix_par_jour
+
+        if avec_chauffeur:
+            prix_total += 10000
+            
+        form = ReservationForm(request.POST)
+        if form.is_valid():
+            reservation = form.save(commit=False)
+            reservation.user = request.user
+            reservation.vehicule = vehicule
+
+            # Vérification disponibilité
+            overlapping = reservation.objects.filter(
+                vehicule=vehicule,
+                date_debut__lt=reservation.date_fin,
+                date_fin__gt=reservation.date_debut
+            )
+
+            if overlapping.exists():
+                form.add_error(None, "Ce véhicule est déjà réservé pour ces dates")
+            else:
+                reservation.save()
+                return redirect('booking_success')
+
+    else:
+        form = ReservationForm()
+
+    return render(request, 'reservation.html', {
+        'form': form,
+        'vehicule': vehicule
+    })

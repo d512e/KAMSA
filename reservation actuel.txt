@@ -1,0 +1,34 @@
+@login_required
+def reservation_vehicule(request, vehicule_id):
+    vehicule = get_object_or_404(Vehicule, id=vehicule_id)
+    
+    if request.method == 'POST':
+        form = ReservationForm(request.POST)
+        if form.is_valid():
+            reservation = form.save(commit=False)
+            
+            reservation.user = request.user
+            reservation.vehicule = vehicule
+            
+            overlapping = Reservation.objects.filter(
+                vehicule=vehicule,
+                date_debut__lt=reservation.date_fin,
+                date_fin__gt=reservation.date_debut
+            )
+
+            if overlapping.exists():
+                form.add_error(None, "Ce véhicule est déjà réservé pour ces dates.")
+            else:
+                reservation.save()
+                return redirect('booking_success') # Assurez-vous que cette URL existe
+        else:
+            # Si le formulaire n'est pas valide, on peut voir les erreurs dans le terminal
+            print(form.errors)
+            
+    else:
+        form = ReservationForm()
+
+    return render(request, 'reservation.html', {
+        'form': form,
+        'vehicule': vehicule
+    })

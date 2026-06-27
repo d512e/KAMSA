@@ -3,15 +3,15 @@
 
 {% block content %}
 <!-- Section: Home -->
-<section class="">
-    <div class="accueil">
-        <img src="{% static 'img/bougouni2.png' %}" alt="Hero Car" class="bg">
-        <div class="voile"></div>
-        <div class="text">
-            <h1 class="slogan" id="">VOTRE MOBILITÉ, NOTRE PRIORITÉ</h1>
-            
-            <div id="" class="forms">
-                <form id="" class="form">
+<section class="padding-top">
+    <div class="relative h-[85vh] flex items-center justify-center overflow-hidden">
+        <img src="{% static 'img/bougouni2.png' %}" alt="Hero Car" class="absolute inset-0 w-full h-full object-cover">
+        <div class="absolute inset-0 bg-black/40"></div>
+
+        <div class="relative z-10 w-full text-center text-white py-1py fade-in">
+            <h1 class="slogan texte-serre px-1px texte-contour">VOTRE MOBILITÉ, NOTRE PRIORITÉ</h1>
+            <div id="" class="bg-white p-6 rounded-lg shadow-2xl max-w-5xl mx-auto text-gray-900 mt-12 translate-y-12 " style="translate: none; rotate: none; scale: none; transform: translate(0px, 0px); opacity: 1;">
+                <form id="" class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
                     <div class="text-left">
                         <label class="label">Pickup Location</label>
                         <div class="relative">

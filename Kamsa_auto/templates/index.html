@@ -10,23 +10,25 @@
 
         <div class="relative z-10 w-full text-center text-white py-1py fade-in">
             <h1 class="slogan texte-serre px-1px texte-contour">VOTRE MOBILITÉ, NOTRE PRIORITÉ</h1>
-            <div id="" class="bg-white p-6 rounded-lg shadow-2xl max-w-5xl mx-auto text-gray-900 mt-12 translate-y-12 " style="translate: none; rotate: none; scale: none; transform: translate(0px, 0px); opacity: 1;">
+            <div id="" class="bg-white p-4 rounded-lg shadow-2xl max-w-5xl mx-auto text-gray-900 mt-12 translate-y-12 " style="translate: none; rotate: none; scale: none; transform: translate(0px, 0px); opacity: 1;">
                 <form id="" class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
                     <div class="text-left">
-                        <label class="label">Pickup Location</label>
+                        <label class="label">Agence</label>
                         <div class="relative">
                             <input type="text" placeholder="Ville ou Aeroport" class="date">
                         </div>
                     </div>
                     <div class="text-left">
-                        <label class="label">Pickup Date</label>
+                        <label class="label">Date de départ</label>
                         <input type="date" class="date">
                     </div>
                     <div class="text-left">
-                        <label class="label">Return Date</label>
+                        <label class="label">Date de retour</label>
                         <input type="date" class="date">
                     </div>
-                    <button type="submit" class="search"> SEARCH FLEET</button>
+                    <a class="btn btn-custom" href="{% url 'vehicules' %}" type="submit"> 
+                        <i class="fa-solid fa-magnifying-glass"></i> Parcourir 
+                    </a>
                 </form>
             </div>
         </div>
@@ -35,18 +37,25 @@
     <!-- Advantages -->
     <div class="avantages">
         <div class="div-content">
-            <h3 class="">Tarification transparente</h3>
-            <p class="">Aucun frais caché, aucune surprise. Le prix affiché est exactement celui que vous payez pour votre expérience de conduite</p>
+            <div class="w-16 h-16 bg-brand-green/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-brand-green group-hover:text-white transition-all duration-500">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="tag" aria-hidden="true" class="lucide lucide-tag w-8 h-8"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"></path><circle cx="7.5" cy="7.5" r=".5" fill="currentColor"></circle></svg>            
+            </div>
+            <h3 class="font-montserrat font-bold text-xl mb-3">Tarification transparente</h3>
+            <p class="text-gray-500 text-sm leading-relaxed">Aucun frais caché, aucune surprise. Le prix affiché est exactement celui que vous payez pour votre expérience de conduite</p>
         </div>
 
         <div class="div-content">
-            <h3 class="">Flotte moderne</h3>
-            <p class="">Nos véhicules sont recent et intègrent les dernières innovations en matière de sécurité et de technologie.</p>
+            <div class="w-16 h-16 bg-brand-green/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-brand-green group-hover:text-white transition-all duration-500">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="shield-check" aria-hidden="true" class="lucide lucide-shield-check w-8 h-8"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg>            </div>
+            <h3 class="font-montserrat font-bold text-xl mb-3">Flotte moderne</h3>
+            <p class="text-gray-500 text-sm leading-relaxed">Nos véhicules sont recent et intègrent les dernières innovations en matière de sécurité et de technologie.</p>
         </div>
 
         <div class="div-content">
-            <h3 class="">Disponible 24/7</h3>
-            <p class="">Assistance 24h/24 et 7j/7 pour tout, des demandes de réservation à l'assistance routière.</p>
+            <div class="w-16 h-16 bg-brand-green/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-brand-green group-hover:text-white transition-all duration-500">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="phone-call" aria-hidden="true" class="lucide lucide-phone-call w-8 h-8"><path d="M13 2a9 9 0 0 1 9 9"></path><path d="M13 6a5 5 0 0 1 5 5"></path><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>            </div>
+            <h3 class="font-montserrat font-bold text-xl mb-3">Disponible 24/7</h3>
+            <p class="text-gray-500 text-sm leading-relaxed">Assistance 24h/24 et 7j/7 pour tout, des demandes de réservation à l'assistance routière.</p>
         </div>
     </div>
 </section> 

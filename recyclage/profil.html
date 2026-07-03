@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Conteneur Principal basé sur l'aperçu visuel -->
+<div class="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8 font-sans">
+    <div class="max-w-6xl mx-auto space-y-8">
+        
+        <!-- 1. BANDEAU DE BIENVENUE -->
+        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6 shadow-sm border border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-4 relative overflow-hidden">
+            <div class="flex items-center gap-4 z-10">
+                <!-- Avatar Initiales -->
+                <div class="w-16 h-16 bg-blue-600 text-white flex items-center justify-center rounded-full text-2xl font-bold uppercase shadow-inner">
+                    {{ request.user.first_name|slice:":1" }}{{ request.user.last_name|slice:":1" }}
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900">Bonjour, {{ request.user.first_name }} {{ request.user.last_name }}</h1>
+                    <p class="text-sm text-gray-500">Dernière connexion : {{ request.user.last_login|date:"d/m/Y" }}</p>
+                </div>
+            </div>
+            <!-- Filigrane voiture (Optionnel décoratif) -->
+            <div class="hidden md:block absolute right-0 top-0 h-full opacity-10 pointer-events-none">
+                <svg class="h-full w-auto" viewBox="0 0 24 24" fill="currentColor"><path d="M18.92 11c-.13-.39-.49-.66-.92-.66h-12c-.44 0-.8.27-.92.66L3 16.5V21c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-4.5l-2.08-5.5zM6.5 18c-.83 0-1.5-.67-1.5-1.5S5.67 15 6.5 15s1.5.67 1.5 1.5S7.33 18 6.5 18zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 14.5l1.5-4.5h11l1.5 4.5H5z"/></svg>
+            </div>
+        </div>
+
+        <!-- GRILLE DEUX COLONNES -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- 2. BLOC GAUCHE : INFORMATIONS PERSONNELLES -->
+            <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 flex flex-col justify-between h-fit">
+                <div>
+                    <h2 class="text-xl font-bold text-gray-900 border-b pb-4 mb-6">Informations Personnelles</h2>
+                    
+                    <div class="space-y-4 text-sm">
+                        <div class="flex justify-between items-center py-1">
+                            <span class="text-gray-500 font-medium">Nom :</span>
+                            <span class="text-gray-900 font-semibold text-right">{{ request.user.first_name }} {{ request.user.last_name }}</span>
+                        </div>
+                        <div class="flex justify-between items-center py-1">
+                            <span class="text-gray-500 font-medium">Email :</span>
+                            <div class="flex items-center gap-2">
+                                <span class="text-gray-900 font-semibold">{{ request.user.email }}</span>
+                                <span class="bg-teal-50 text-teal-700 text-xs px-2 py-0.5 rounded-full border border-teal-200 font-medium">Vérifié</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center py-1">
+                            <span class="text-gray-500 font-medium">Téléphone :</span>
+                            <div class="flex items-center gap-2">
+                                <span class="text-gray-900 font-semibold">{{ request.user.client.telephone }}</span>
+                                <span class="bg-teal-50 text-teal-700 text-xs px-2 py-0.5 rounded-full border border-teal-200 font-medium">Vérifié</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center py-1">
+                            <span class="text-gray-500 font-medium">Statut :</span>
+                            <span class="text-gray-900 font-semibold">Client</span>
+                        </div>
+                        <div class="flex justify-between items-center py-1">
+                            <span class="text-gray-500 font-medium">Adhérent depuis :</span>
+                            <span class="text-gray-900 font-semibold">{{ request.user.date_joined|date:"d F Y" }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Boutons d'actions inférieurs -->
+                <div class="mt-8 space-y-3">
+                    <a href="{% url 'modifier_profil' %}" class="block w-full text-center bg-blue-700 hover:bg-blue-800 text-white font-medium py-3 px-4 rounded-xl transition duration-200 shadow-sm">
+                        Modifier les Informations
+                    </a>
+                    <form action="{% url 'logout' %}" method="post" class="w-full">
+                        {% csrf_token %}
+                        <button type="submit" class="w-full text-center text-red-600 hover:text-red-700 font-semibold text-sm py-2 transition duration-200">
+                            Déconnexion
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- 3. BLOC DROIT : MES RÉSERVATIONS RÉCENTES -->
+            <div class="lg:col-span-2 space-y-6">
+                <h2 class="text-xl font-bold text-gray-900">Mes Réservations Récentes</h2>
+                
+                <div class="space-y-4">
+                    {% for reservation in reservations %}
+                        <!-- Carte Individuelle de Réservation -->
+                        <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition duration-200">
+                            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b pb-4 mb-4">
+                                <div>
+                                    <h3 class="text-lg font-bold text-gray-900">
+                                        {% if reservation.status == 'confirmed' or reservation.status == 'pending' %}En cours :{% else %}Historique :{% endif %} 
+                                        {{ reservation.vehicule.marque }} {{ reservation.vehicule.nom }}
+                                    </h3>
+                                    <p class="text-xs text-gray-400 mt-0.5">Réf : #KAMSA-{{ reservation.id }}</p>
+                                </div>
+                                <!-- Badge Statut Dynamique -->
+                                <span class="px-3 py-1 rounded-full text-xs font-semibold border
+                                    {% if reservation.status == 'confirmed' %}bg-green-50 text-green-700 border-green-200
+                                    {% elif reservation.status == 'pending' %}bg-yellow-50 text-yellow-700 border-yellow-200
+                                    {% else %}bg-gray-50 text-gray-600 border-gray-200{% endif %}">
+                                    {{ reservation.get_status_display }}[cite: 4]
+                                </span>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-gray-600">
+                                <div class="space-y-1.5">
+                                    <p><span class="font-medium text-gray-400">Dates :</span> {{ reservation.date_debut|date:"d/m/Y" }} - {{ reservation.date_fin|date:"d/m/Y" }}[cite: 4]</p>
+                                    <p><span class="font-medium text-gray-400">Chauffeur :</span> {% if reservation.inclut_chauffeur %}Oui (+10000 FCFA){% else %}Non{% endif %}</p>
+                                </div>
+                                <div class="space-y-1.5 sm:text-right flex flex-col justify-between items-start sm:items-end">
+                                    <p class="text-base font-bold text-gray-900">
+                                        <span class="font-medium text-sm text-gray-400 font-normal">Prix Total :</span> 
+                                        {% if reservation.prix_total > 0 %}
+                                            {{ reservation.prix_total }}
+                                        {% else %}
+                                            <!-- Calcul de secours automatique pour les anciennes réservations -->
+                                            Ce véhicule est disponible
+                                        {% endif %} 
+                                        FCFA
+                                    </p>
+                                    
+                                    {% if reservation.status == 'pending' or reservation.status == 'confirmed' %}
+                                    <div class="flex gap-4 text-xs font-semibold mt-2 sm:mt-0">
+                                        <a href="#" class="text-blue-600 hover:text-blue-700 hover:underline">Détails</a>
+                                        <span class="text-gray-300">/</span>
+                                        <a href="#" class="text-red-500 hover:text-red-600 hover:underline">Annulation</a>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <!-- État vide si aucune réservation -->
+                        <div class="bg-white rounded-2xl p-12 text-center border border-gray-200 shadow-sm">
+                            <svg class="mx-auto h-12 w-12 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                            </svg>
+                            <p class="mt-4 text-sm text-gray-500 font-medium">Vous n'avez effectué aucune réservation pour le moment.</p>
+                            <a href="{% url 'vehicules' %}" class="mt-4 inline-block text-sm font-semibold text-blue-600 hover:text-blue-700">Voir le catalogue de véhicules &rarr;</a>
+                        </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

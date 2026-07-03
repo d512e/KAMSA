@@ -48,6 +48,13 @@ class Reservation(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     inclut_chauffeur = models.BooleanField(default=False)
     prix_total = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    STATUT_PAIEMENT = [
+        ('unpaid', 'Non payé'),
+        ('paid', 'Payé'),
+        ('failed', 'Échoué'),
+    ]
+    statut_paiement = models.CharField(max_length=10, choices=STATUT_PAIEMENT, default='unpaid')
+    transaction_id = models.CharField(max_length=100, blank=True, null=True) # ID fourni par l'API de paiement
 
     def __str__(self):
         return f"{self.user.username} - {self.vehicule.nom}"

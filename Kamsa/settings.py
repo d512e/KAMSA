@@ -126,5 +126,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.100.87']
 
+# --- CONFIGURATION PAIEMENT SANDBOX (TESTS) ---
+BCEAO_AUTH_URL = "https://piz-simulateur-business-sandbox.auth.eu-west-1.amazoncognito.com/oauth2/token"
+BCEAO_PAYMENT_URL = "https://sandbox.api.pi-bceao.com/piz/v1/paiements"
 
+BCEAO_CLIENT_ID = "3foo8m1ros7s354op0hiia0v2i".strip()
+BCEAO_CLIENT_SECRET = "1rl8gh79c62nlk94buc2d0c3b3u1rd25pbj1mbrrebo0ojan11bv".strip()
 

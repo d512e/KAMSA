@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<section class="page fade-in">
+        <div class="titre">
+            <h2 class="">Completez Votre Reservation</h2>
+            <p class="">Personalize your journey with our flexible options.</p>
+        </div>
+
+        <form method="POST" class="corps">
+            {% csrf_token %}
+
+            <div class="information">
+                <div class="padding-redius">
+                    <h3 class="">Informations Personnele</h3>
+                </div>
+                <div class="flex-div">
+                    <input type="text" name="prenom" value="{{ user.first_name }}"  placeholder="Prénom" class="form-input">
+                    <input type="text" name="nom" value="{{ user.last_name }}"placeholder="Nom" class="form-input">
+                </div>
+                <input type="email" name="email" value="{{ user.email }}" placeholder="Email" class="form-input">
+                <input type="tel" name="telephone" value="{{ user.client.telephone }}" placeholder="Telephone" class="form-input">
+            </div>
+
+            <div class="information">
+                <h3 class="padding-redius">Dates de la location</h3>
+                <div class="flex-div">
+                    <div style="flex: 1; margin-right: 10px;">
+                        <label for="date_debut" style="display: block; margin-bottom: 5px;">Date de début :</label>
+                        <input type="date" id="date_debut" name="date_debut" class="form-input" required>
+                    </div>
+                    <div style="flex: 1;">
+                        <label for="date_fin" style="display: block; margin-bottom: 5px;">Date de fin :</label>
+                        <input type="date" id="date_fin" name="date_fin" class="form-input" required>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="information" style="background-color: var(--brand-dark);">
+                <h3 class="text-white">Résumé de la location</h3>    
+                <p class="text-white">{{ vehicule.marque }} {{ vehicule.nom }}</p>           
+                <p class="text-white">Prix véhicule : {{ vehicule.prix_par_jour }} FCFA</p>
+                <label class="text-white">
+                    <input name="chauffeur" type="checkbox" id="chauffeurCheckbox">
+                    Inclure un chauffeur (+10000 FCFA)
+                </label>
+                <h4 class="text-white mt-3">
+                    Prix Total : <span id="prixTotal" data-prix="{{ vehicule.prix_par_jour }}"> {{ vehicule.prix_par_jour }}</span> FCFA
+                </h4>
+                <button type="submit" class="btn btn-custom">
+                    CONFIRMER
+                </button>
+            </div>
+
+            
+
+        </form>    
+</section>
+
+           
+{% endblock %}
+

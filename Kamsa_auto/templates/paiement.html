@@ -1,0 +1,170 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="px-6 bg-gray-50 py-24 hidden fade-in">
+
+    <h2 class="text-center text-3xl font-montserrat font-bold py-6">FINALIZEZ VOTRE RESERVATION</h2>
+    <div class="reservation-container px-12">
+        <!--Font Awesome CDN-->
+        <div class="container">
+            <div class="title">
+                <h4 class="titre font-bold text-gray-900">Moyen de <span style="color: #2274d7">Payment</span></h4>
+            </div>
+
+            <form action="{% url 'initier_paiement' reservation.id %}" method="POST" id="payment-form">
+                {% csrf_token %}
+
+                <input class="d-none" type="radio" name="moyen_paiement" id="orange" value="orange" onclick="showFields()" required>
+                <input class="d-none" type="radio" name="moyen_paiement" id="moov" value="wave" onclick="showFields()">
+                <input class="d-none" type="radio" name="moyen_paiement" id="wave" value="moov" onclick="showFields()">
+                <input class="d-none" type="radio" name="moyen_paiement" id="mastercard" value="carte" onclick="showFields()">
+                
+
+                <div class="category">
+                    <label for="orange" class="orangeMethod">
+                        <div class="imgName">
+                            <div class="imgContainer orange">
+                                <img src="{% static "img/logo/om.png" %}" alt="">
+                            </div>
+                            <span class="name">Orange Money</span>
+                        </div>
+                        <span class="check"><i class="fa-solid fa-circle-check" style="color: #2274d7;"></i></span>
+                    </label>
+
+                    <label for="moov" class="moovMethod">
+                        <div class="imgName">
+                            <div class="imgContainer moov">
+                                <img src="{% static "img/logo/mv.png" %}" alt="">
+                            </div>
+                            <span class="name">Moov Money</span>
+                        </div>
+                        <span class="check"><i class="fa-solid fa-circle-check" style="color: #2274d7;"></i></span>
+                    </label>
+
+                    <label for="wave" class="waveMethod">
+                        <div class="imgName">
+                            <div class="imgContainer wave">
+                                <img src="{% static "img/logo/wv.png" %}" alt="">
+                            </div>
+                            <span class="name">Wave</span>
+                        </div>
+                        <span class="check"><i class="fa-solid fa-circle-check" style="color: #2274d7;"></i></span>
+                    </label>
+
+                    <label for="mastercard" class="mastercardMethod">
+                        <div class="imgName">
+                            <div class="imgContainer mastercard">
+                                <img src="{% static "img/logo/mc.png" %}" alt="">
+                            </div>
+                            <span class="name">Mastercard</span>
+                        </div>
+                        <span class="check"><i class="fa-solid fa-circle-check" style="color: #2274d7;"></i></span>
+                    </label>
+                </div>
+
+                <hr id="separateur-paiement" style="display: none">
+
+                <div id="champs-mobiles" style="display: none; margin-top: 20px; border: 1px solid #ddd; padding: 15px; border-radius: 8px; background-color: #f9fafb;">
+
+                    
+
+                    <h4 id="titre-moyen" style="font-weight: bold; margin-bottom: 10px; color: #374151;">Détails du compte</h4>
+                    
+                    <div style="margin-bottom: 10px;">
+                        <label style="display: block; margin-bottom: 5px;">Numéro de téléphone lié au compte :</label>
+                        <input type="tel" name="telephone_paiement" placeholder="Ex: 76335609" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                    </div>
+            
+                    <div>
+                        <label style="display: block; margin-bottom: 5px;">Code Secret / OTP de simulation :</label>
+                        <input type="password" name="code_otp" placeholder="Ex: 1234" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                    </div>
+                </div>
+
+                <div id="champs-carte" style="display: none; margin-top: 20px; border: 1px solid #ddd; padding: 15px; border-radius: 8px; background-color: #f9fafb;">
+                    <h4 style="font-weight: bold; margin-bottom: 15px; color: #374151;">Saisir les coordonnées de la carte</h4>
+                    
+                    <div style="margin-bottom: 10px;">
+                        <label style="display: block; margin-bottom: 5px;">Nom du titulaire :</label>
+                        <input type="text" name="nom_carte" placeholder="Nom complet" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                    </div>
+            
+                    <div style="margin-bottom: 10px;">
+                        <label style="display: block; margin-bottom: 5px;">Numéro de carte :</label>
+                        <input type="text" name="numero_carte" placeholder="4000 1234 5678 9010" maxlength="19" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                    </div>
+            
+                    <div style="display: flex; gap: 10px;">
+                        <div style="flex: 1;">
+                            <label style="display: block; margin-bottom: 5px;">Date d'expiration :</label>
+                            <input type="text" name="exp_carte" placeholder="MM/AA" maxlength="5" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                        </div>
+                        <div style="flex: 1;">
+                            <label style="display: block; margin-bottom: 5px;">Cryptogramme (CVV) :</label>
+                            <input type="password" name="cvv_carte" placeholder="123" maxlength="3" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" style="margin-top: 20px; width: 100%; padding: 12px; background-color: #2563eb; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">
+                    Confirmer le paiement
+                </button>
+            </form>
+        </div>
+
+        <div class="soft-container">
+            <h2 class="text-xl font-bold text-gray-900 mb-4">Résumé de votre commande</h2>
+            <div class="d-flex flex-column justify-between text-sm text-gray-600">
+                <span>Véhicule : <strong class="text-gray-900">{{ reservation.vehicule.marque }} {{ reservation.vehicule.nom }}</strong></span> </br>
+                <span>Période : <strong>{{ reservation.date_debut|date:"d/m/Y" }} au {{ reservation.date_fin|date:"d/m/Y" }}</strong></span>
+            </div>
+            <div class="mt-4 d-flex flex-column">
+                <span class="titre">Montant à payer :</span>
+                <span class="titre text-gray-900 text-2xl">{{ reservation.prix_total }} FCFA</span>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</section>
+<script>
+    function showFields() {
+        var champsMobiles = document.getElementById("champs-mobiles");
+        var champsCarte = document.getElementById("champs-carte");
+        var separateur = document.getElementById("separateur-paiement"); // ──▶ RÉCUPÉRATION ICI
+        var radios = document.getElementsByName("moyen_paiement");
+        
+        var inputTel = document.getElementsByName("telephone_paiement")[0];
+        var inputNom = document.getElementsByName("nom_carte")[0];
+        var titreMoyen = document.getElementById("titre-moyen");
+    
+        for (var i = 0; i < radios.length; i++) {
+            if (radios[i].checked) {
+                var choix = radios[i].value;
+    
+                // Rendre la ligne <hr> visible dès qu'un choix est fait
+                separateur.style.display = "block"; // ──▶ AFFICHAGE DU HR
+    
+                if (choix === "carte") {
+                    champsCarte.style.display = "block";
+                    champsMobiles.style.display = "none";
+                    
+                    inputNom.required = true;
+                    inputTel.required = false;
+                } else {
+                    champsMobiles.style.display = "block";
+                    champsCarte.style.display = "none";
+                    titreMoyen.innerText = "Paramètres de connexion " + choix.toUpperCase();
+                    
+                    inputTel.required = true;
+                    inputNom.required = false;
+                }
+                break;
+            }
+        }
+    }
+    </script>
+{% endblock %}

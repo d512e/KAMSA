@@ -1,60 +1,140 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block content %}
-<section class="page fade-in">
-        <div class="titre">
-            <h2 class="">Completez Votre Reservation</h2>
-            <p class="">Personalize your journey with our flexible options.</p>
+
+<section class="px-6 bg-gray-50 py-24 hidden fade-in">
+
+    <h2 class="text-center text-3xl font-montserrat font-bold py-6">RÉSERVEZ VOTRE VÉHICULE</h2>
+    <div class="reservation-container px-12">
+
+        <!-- formulaire -->
+        <div class="reservation-card">
+            <h2>Détails de votre Réservation</h2>
+
+            <form method="POST" action="">
+                {% csrf_token %}
+
+                <!-- Affichage des erreurs générales du formulaire -->
+                {% if form.non_field_errors %}
+                <div class="mb-6 p-4 bg-red-50 text-red-700 text-sm rounded-xl border border-red-200">
+                    {{ form.non_field_errors }}
+                </div>
+                {% endif %}
+
+                <label>Véhicule sélectionné</label>
+                <select>
+                <option>{{ vehicule.marque }} {{ vehicule.nom }}</option>
+                </select>
+
+                <div class="row">
+                    <div>
+                        <label>Date de début</label>
+                        <input type="date" id="date_debut" name="date_debut" required>
+                    </div>
+
+                    <div>
+                        <label>Date de fin</label>
+                        <input type="date" id="date_fin" name="date_fin" required>
+                    </div>
+                </div>
+
+                <fieldset class="option">
+                    <legend style="font-size: 16px; font-weight: 600;">Option chauffeur</legend>
+                    <label class="driver" for="chauffeurCheckbox" style="font-size: 16px; color: gray ;">
+                        <input type="checkbox" id="chauffeurCheckbox" name="chauffeur" style="font-size: 16px; color: gray">
+                        Inclure un chauffeur (+10 000 FCFA / jour)
+                    </label>
+                </fieldset>
+
+                <hr>
+
+                <div class="price">
+                    <span class="span1">Prix par jour :</span>
+                    <span class="span2">{{ vehicule.prix_par_jour }} FCFA</span>
+                </div>
+
+                <div class="price">
+                    <span class="span1">Nombre de jours :</span>
+                    <span id="nbrJoursText" class="span2">1</span>
+                </div>
+
+                <div class="price">
+                    <span class="span1">Total estimé :</span>
+                    <div><span id="prixTotal" data-prix="{{ vehicule.prix_par_jour }}" class="span2">--</span> FCFA</div>
+                </div>
+                                
+                <div class="d-flex flex-column align-items-center">
+                    <button type="submit" class="btn btn-custom">
+                        <i class="fa-solid fa-lock"></i>
+                        PROCCEDER AU PAYEMENT
+                        </button>
+                </div>
+            </form>
         </div>
 
-        <form method="POST" class="corps">
-            {% csrf_token %}
 
-            <div class="information">
-                <div class="padding-redius">
-                    <h3 class="">Informations Personnele</h3>
-                </div>
-                <div class="flex-div">
-                    <input type="text" name="prenom" value="{{ user.first_name }}"  placeholder="Prénom" class="form-input">
-                    <input type="text" name="nom" value="{{ user.last_name }}"placeholder="Nom" class="form-input">
-                </div>
-                <input type="email" name="email" value="{{ user.email }}" placeholder="Email" class="form-input">
-                <input type="tel" name="telephone" value="{{ user.client.telephone }}" placeholder="Telephone" class="form-input">
-            </div>
+        <!-- voiture -->
+        <div class="vehicle-card">
+            {% if vehicule.image %}
+            <img src="{{ vehicule.image.url }}" alt="{{ vehicule.nom }}" class="w-full h-48 object-cover rounded-2xl shadow-sm">
+            {% else %}
+                <img src="https://via.placeholder.com/400x250" alt="Image par défaut" class="w-full h-48 object-cover rounded-2xl shadow-sm">
+            {% endif %}
 
-            <div class="information" style="background-color: var(--brand-dark);">
-                <h3 class="text-white">Résumé de la location</h3>    
-                <p class="text-white">{{ vehicule.marque }} {{ vehicule.nom }}</p>           
-                <p class="text-white">Prix véhicule : {{ vehicule.prix_par_jour }} FCFA</p>
-                <label class="text-white">
-                    <input name="chauffeur" type="checkbox" id="chauffeurCheckbox">
-                    Inclure un chauffeur (+10000 FCFA)
-                </label>
-                <h4 class="text-white mt-3">
-                    Prix Total : <span id="prixTotal" data-prix="{{ vehicule.prix_par_jour }}"> {{ vehicule.prix_par_jour }}</span> FCFA
-                </h4>
-                <button type="submit" class="btn btn-custom">
-                    CONFIRMER
-                </button>
-            </div>
+            <h2>{{ vehicule.marque }} {{ vehicule.nom }}</h2>
+            <p>Premium, Confort, ÉLÉGANCE</p>
+            <p><i class="fa-solid fa-users"></i> 4 Places</p>
+            <p><i class="fa-solid fa-gears"></i> Transmission Automatique</p>
+        </div>
+    </div>
 
-            <div class="information">
-                <h3 class="padding-redius">Dates de la location</h3>
-                <div class="flex-div">
-                    <div style="flex: 1; margin-right: 10px;">
-                        <label for="date_debut" style="display: block; margin-bottom: 5px;">Date de début :</label>
-                        <input type="date" id="date_debut" name="date_debut" class="form-input" required>
-                    </div>
-                    <div style="flex: 1;">
-                        <label for="date_fin" style="display: block; margin-bottom: 5px;">Date de fin :</label>
-                        <input type="date" id="date_fin" name="date_fin" class="form-input" required>
-                    </div>
-                </div>
-            </div>
-
-        </form>    
 </section>
 
-           
-{% endblock %}
+<!-- CALCUL DYNAMIQUE EN JAVASCRIPT -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const dateDebutInput = document.getElementById('date_debut');
+        const dateFinInput = document.getElementById('date_fin');
+        const chauffeurCheckbox = document.getElementById('chauffeurCheckbox');
+        const prixTotalSpan = document.getElementById('prixTotal');
+        const nbrJoursText = document.getElementById('nbrJoursText');
 
+        const prixParJour = parseFloat(prixTotalSpan.getAttribute('data-prix'));
+
+        function calculerPrixTotal() {
+            const dateDebut = new Date(dateDebutInput.value);
+            const dateFin = new Date(dateFinInput.value);
+            
+            let nbrJours = 1;
+
+            if (!isNaN(dateDebut) && !isNaN(dateFin) && dateFin > dateDebut) {
+                const diffTime = Math.abs(dateFin - dateDebut);
+                nbrJours = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            }
+
+            // Mettre à jour l'affichage du nombre de jours
+            nbrJoursText.textContent = nbrJours;
+
+            // Calcul du prix total
+            let total = prixParJour * nbrJours;
+
+            if (chauffeurCheckbox.checked) {
+                total += (10000 * nbrJours); // Ajout des 10 000 FCFA par jour pour le chauffeur
+            }
+
+            // Mettre à jour l'affichage de la somme totale
+            prixTotalSpan.textContent = total.toLocaleString('fr-FR');
+        }
+
+        // Initialisation lors du premier affichage de la page
+        calculerPrixTotal();
+
+        // Écouteurs d'événements
+        dateDebutInput.addEventListener('change', calculerPrixTotal);
+        dateFinInput.addEventListener('change', calculerPrixTotal);
+        chauffeurCheckbox.addEventListener('change', calculerPrixTotal);
+    });
+</script>
+
+{% endblock %}

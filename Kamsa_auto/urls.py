@@ -14,5 +14,9 @@ urlpatterns = [
     path('deconnexion/', auth_views.LogoutView.as_view(next_page='connexion'), name='deconnexion'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('profil/modifier/', views.modifier_profil, name='modifier_profil'),
-    
+    path("paiement/<int:reservation_id>/", views.page_paiement, name="page_paiement"),
+    path("paiement/<int:reservation_id>/initier/", views.initier_paiement, name="initier_paiement"),
+    path("paiement/<int:reservation_id>/succes/", views.paiement_succes, name="paiement_succes"),
+
 ]
+

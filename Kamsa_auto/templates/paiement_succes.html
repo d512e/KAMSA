@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="py-24">
+
+    <div class="container bg-white rounded-xl shadow-lg p-8 text-center">
+
+        <h1 class="text-3xl font-bold text-green-600">Paiement effectué</h1>
+
+        <br>
+
+        <p>Votre réservation a été confirmée.</p>
+
+        <br>
+
+        <p><strong>Référence :</strong>{{ reservation.transaction_id }}</p>
+
+        <p><strong>Montant :</strong> {{ reservation.prix_total }} FCFA </p>
+        <br>
+        <a class="btn btn-custom" href="{% url 'dashboard' %}" class="bg-blue-600 text-white px-6 py-3 rounded-lg"> Retour à mon compte </a>
+    </div>
+
+</section>
+
+{% endblock %}

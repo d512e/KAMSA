@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-b from-blue-50 to-white py-16 px-4 sm:px-6 lg:px-8 font-sans">
+    <div class="max-w-5xl mx-auto">
+        
+        <!-- TITRE PRINCIPAL -->
+        <h1 class="text-3xl font-extrabold text-center text-gray-900 tracking-tight mb-12 uppercase">
+            Réservez votre véhicule
+        </h1>
+
+        <!-- CONTENEUR GRILLE DEUX COLONNES -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+            
+            <!-- COLONNE GAUCHE : FORMULAIRE DE RÉSERVATION -->
+            <div class="lg:col-span-2 bg-white rounded-3xl p-8 shadow-md border border-gray-100">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6">Détails de votre Réservation</h2>
+                
+                <form method="POST" action="">
+                    {% csrf_token %}
+
+                    <!-- Affichage des erreurs générales du formulaire -->
+                    {% if form.non_field_errors %}
+                        <div class="mb-6 p-4 bg-red-50 text-red-700 text-sm rounded-xl border border-red-200">
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
+
+                    <!-- Champ 1 : Véhicule sélectionné (Lecture seule ou désactivé) -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Véhicule sélectionné</label>
+                        <select disabled class="block w-full rounded-xl border-gray-300 bg-gray-50 text-gray-900 py-3 px-4 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                            <option>{{ vehicule.marque }} {{ vehicule.nom }}</option>
+                        </select>
+                    </div>
+
+                    <!-- Champs 2 & 3 : Dates de début et de fin (Côte à côte) -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                        <div>
+                            <label for="date_debut" class="block text-sm font-bold text-gray-700 mb-2">Date de début</label>
+                            <input type="date" id="date_debut" name="date_debut" required
+                                   class="block w-full rounded-xl border-gray-300 py-3 px-4 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-gray-900">
+                        </div>
+                        <div>
+                            <label for="date_fin" class="block text-sm font-bold text-gray-700 mb-2">Date de fin</label>
+                            <input type="date" id="date_fin" name="date_fin" required
+                                   class="block w-full rounded-xl border-gray-300 py-3 px-4 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-gray-900">
+                        </div>
+                    </div>
+
+                    <!-- Champ 4 : Option Chauffeur -->
+                    <div class="mb-8 p-4 bg-gray-50 rounded-xl border border-gray-100">
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Option Chauffeur</label>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="chauffeurCheckbox" name="chauffeur"
+                                   class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                            <label for="chauffeurCheckbox" class="ml-3 text-sm font-medium text-gray-600">
+                                Inclure un chauffeur (+ 10,000 FCFA / jour)
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- BLOC DE FACTURATION DYNAMIQUE -->
+                    <div class="border-t pt-6 space-y-3 text-base text-gray-600 mb-8">
+                        <div class="flex justify-between">
+                            <span>Prix par jour :</span>
+                            <span class="font-bold text-gray-900">{{ vehicule.prix_par_jour }} FCFA</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Nombre de jours :</span>
+                            <span id="nbrJoursText" class="font-bold text-gray-900">1</span>
+                        </div>
+                        <div class="flex justify-between text-xl border-t pt-3 font-extrabold text-gray-900">
+                            <span>Total estimé (TTC) :</span>
+                            <p><span id="prixTotal" data-prix="{{ vehicule.prix_par_jour }}">--</span> FCFA</p>
+                        </div>
+                    </div>
+
+                    <!-- BOUTON DE SOUMISSION -->
+                    <button type="submit" class="w-full flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-xl transition duration-150 ease-in-out shadow-lg shadow-blue-200 uppercase tracking-wide">
+                        Confirmer ma réservation &nbsp;
+                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+
+            <!-- COLONNE DROITE : RÉSUMÉ DU VÉHICULE -->
+            <div class="bg-white rounded-3xl p-6 shadow-md border border-gray-100 space-y-6">
+                {% if vehicule.image %}
+                    <img src="{{ vehicule.image.url }}" alt="{{ vehicule.nom }}" class="w-full h-48 object-cover rounded-2xl shadow-sm">
+                {% else %}
+                    <img src="https://via.placeholder.com/400x250" alt="Image par défaut" class="w-full h-48 object-cover rounded-2xl shadow-sm">
+                {% endif %}
+                
+                <div>
+                    <h3 class="text-xl font-extrabold text-gray-900">{{ vehicule.marque }} {{ vehicule.nom }}</h3>
+                    <p class="text-sm text-gray-400 mt-1">{{ vehicule.description|default:"Premium, Confort, ÉLÉGANCE" }}</p>
+                </div>
+
+                <!-- CARACTÉRISTIQUES DU VÉHICULE -->
+                <div class="border-t pt-4 space-y-3 text-sm font-medium text-gray-500">
+                    <div class="flex items-center gap-3">
+                        <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        </svg>
+                        <span>4 Places</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
+                        </svg>
+                        <span>Transmission Automatique</span>
+                    </div>
+                </div>
+
+                <div class="border-t pt-4 flex justify-between items-center">
+                    <span class="text-sm text-gray-400 font-medium">Tarif journalier</span>
+                    <span class="text-xl font-black text-gray-900">{{ vehicule.prix_par_jour }} FCFA</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- CALCUL DYNAMIQUE EN JAVASCRIPT -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const dateDebutInput = document.getElementById('date_debut');
+        const dateFinInput = document.getElementById('date_fin');
+        const chauffeurCheckbox = document.getElementById('chauffeurCheckbox');
+        const prixTotalSpan = document.getElementById('prixTotal');
+        const nbrJoursText = document.getElementById('nbrJoursText');
+
+        const prixParJour = parseFloat(prixTotalSpan.getAttribute('data-prix'));
+
+        function calculerPrixTotal() {
+            const dateDebut = new Date(dateDebutInput.value);
+            const dateFin = new Date(dateFinInput.value);
+            
+            let nbrJours = 1;
+
+            if (!isNaN(dateDebut) && !isNaN(dateFin) && dateFin > dateDebut) {
+                const diffTime = Math.abs(dateFin - dateDebut);
+                nbrJours = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            }
+
+            // Mettre à jour l'affichage du nombre de jours
+            nbrJoursText.textContent = nbrJours;
+
+            // Calcul du prix total
+            let total = prixParJour * nbrJours;
+
+            if (chauffeurCheckbox.checked) {
+                total += (10000 * nbrJours); // Ajout des 10 000 FCFA par jour pour le chauffeur
+            }
+
+            // Mettre à jour l'affichage de la somme totale
+            prixTotalSpan.textContent = total.toLocaleString('fr-FR');
+        }
+
+        // Initialisation lors du premier affichage de la page
+        calculerPrixTotal();
+
+        // Écouteurs d'événements
+        dateDebutInput.addEventListener('change', calculerPrixTotal);
+        dateFinInput.addEventListener('change', calculerPrixTotal);
+        chauffeurCheckbox.addEventListener('change', calculerPrixTotal);
+    });
+</script>
+{% endblock %}

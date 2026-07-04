@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}À Propos - KAMSA Auto{% endblock %}
+{% block content %}
+<style>
+    /* Styles spécifiques pour habiller la page À Propos en harmonie avec ton site */
+    .apropos-container {
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        color: #333;
+    }
+    .mission-box {
+        background-color: #f4f7fa;
+        border: 1px solid #e1e8ed;
+        padding: 20px;
+        border-radius: 6px;
+        margin: 20px 0;
+        font-style: italic;
+        color: #0b1a30;
+        font-weight: 500;
+    }
+    .section-title {
+        font-size: 1.5rem;
+        color: #0b1a30;
+        margin-top: 30px;
+        border-left: 4px solid #0f4c81;
+        padding-left: 10px;
+    }
+    .feature-list {
+        list-style-type: none;
+        padding-left: 0;
+    }
+    .feature-list li {
+        margin-bottom: 12px;
+        padding-left: 15px;
+        position: relative;
+    }
+    .feature-list li::before {
+        content: "•";
+        color: #0f4c81;
+        font-weight: bold;
+        position: absolute;
+        left: 0;
+    }
+    .feature-title {
+        font-weight: bold;
+        color: #0b1a30;
+    }
+    .partners-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+    }
+    .partners-table th, .partners-table td {
+        border: 1px solid #e1e8ed;
+        padding: 12px;
+        text-align: left;
+    }
+    .partners-table th {
+        background-color: #f4f7fa;
+        color: #0b1a30;
+    }
+    .partners-table tr:nth-child(even) {
+        background-color: #fafbfc;
+    }
+    .info-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        margin-top: 20px;
+    }
+    @media (max-width: 768px) {
+        .info-grid { grid-template-columns: 1fr; }
+    }
+</style>
+
+<section class="apropos-container py-24">
+    
+    <div class="header-container">
+        <div class="logo-text">KAMSA <span class="logo-accent">AUTO</span></div>
+        <div class="tagline">Votre Mobilité, Notre Priorité • Bienvenue à Bamako</div>
+    </div>
+
+    <h1 class="mb-4" style="color: #0b1a30; font-weight: 700;">À Propos de nous</h1>
+    
+    <div class="mission-box">
+        <p class="mb-0">« Offrir une expérience de mobilité moderne, fluide et sécurisée au Mali, connectant les particuliers et les résidents locaux à une flotte de véhicules d'exception d'un simple clic. »</p>
+    </div>
+
+    <p class="lead text-muted">
+        Fondée avec la ferme intention de révolutionner le secteur de la location de véhicules au Mali, <strong>KAMSA AUTO</strong> s'impose comme la plateforme de référence pour tous les besoins de transport, qu'ils soient professionnels, familiaux ou touristiques. En plaçant l'innovation technologique au cœur de ses services, KAMSA AUTO permet de réserver en toute simplicité des véhicules adaptés à chaque type de trajet directement depuis une interface intuitive.
+    </p>
+
+    <h2 class="section-title">Une Flotte Diversifiée et Prestigieuse</h2>
+    <p>Parce que chaque voyage est unique, KAMSA AUTO propose une sélection rigoureuse de véhicules segmentés pour répondre précisément à vos attentes :</p>
+    
+    <ul class="feature-list">
+        <li><span class="feature-title">Gamme Berlines Exécutives & Prestige :</span> L'élégance sportive et le luxe technologique incarnés à travers des modèles phares tels que la <em>Mercedes Classe E Coupé</em> et le summum du raffinement avec la <em>Mercedes Classe S</em>.</li>
+        <li><span class="feature-title">Gamme Familiale & Transport VIP :</span> Conçue pour les longs trajets et les déplacements en groupe ou en famille nombreuse, notamment avec le confort haut de gamme de la <em>Mercedes Classe V</em>.</li>
+        <li><span class="feature-title">Gamme SUV & Polyvalence :</span> Des véhicules robustes et audacieux adaptés aux routes urbaines et régionales, à l'instar du <em>Kia Sportage</em>.</li>
+    </ul>
+
+    <h2 class="section-title">Nos Partenaires Stratégiques</h2>
+    <p>Afin de garantir une disponibilité maximale, un entretien irréprochable et un réseau étendu sur l'ensemble de la capitale et environt, KAMSA AUTO collabore étroitement avec des acteurs majeurs du secteur automobile et des enseignes de location de confiance :</p>
+
+    <div class="table-responsive">
+        <table class="partners-table">
+            <thead>
+                <tr>
+                    <th>Enseigne / Partenaire</th>
+                    <th>Emplacement / Siège</th>
+                    <th>Contact Service</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>La Malienne de l'Automobile</strong></td>
+                    <td>Zone Industrielle, Rue 14, Bamako, Mali</td>
+                    <td>+223 20 21 45 80 / contact@malienneauto.ml</td>
+                </tr>
+                <tr>
+                    <td><strong>Sahel Rent a Car</strong></td>
+                    <td>Avenue de la Marne, Quartier du Fleuve, Bamako, Mali</td>
+                    <td>+223 44 39 88 11 / info@sahelrent.ml</td>
+                </tr>
+                <tr>
+                    <td><strong>Mandé Location Prestige</strong></td>
+                    <td>Cité du Niger, Villa 42, Bamako, Mali</td>
+                    <td>+223 76 12 34 56 / vip@mandelocation.ml</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="info-grid">
+        <div>
+            <h2 class="section-title">Pourquoi nous choisir ?</h2>
+            <ul class="feature-list">
+                <li>Disponibilité totale 24h/24 et 7j/7.</li>
+                <li>Service d'accompagnement personnalisé avec chauffeur professionnel sur demande.</li>
+                <li>Tarification claire et transparente.</li>
+                <li>Suivi de statut instantané depuis votre tableau de bord.</li>
+            </ul>
+        </div>
+        <div>
+            <h2 class="section-title">Notre Vision de la Mobilité</h2>
+            <p>
+                Nous croyons que la mobilité ne se résume pas à se déplacer d'un point A à un point B, mais réside dans le confort, la sécurité et la sérénité d'esprit tout au long du trajet. Que vous arriviez à l'Aéroport International Modibo Keïta ou que vous vous déplaciez en centre-ville, KAMSA AUTO est votre partenaire de confiance.
+            </p>
+        </div>
+    </div>
+</section>
+{% endblock %}

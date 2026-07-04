@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Politique de Confidentialité - KAMSA Auto{% endblock %}
+
+{% block content %}
+<style>
+    .privacy-container {
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 0 20px;
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        color: #333;
+        line-height: 1.6;
+    }
+    .privacy-title {
+        color: #0b1a30;
+        font-weight: 700;
+        border-bottom: 2px solid #0f4c81;
+        padding-bottom: 10px;
+    }
+    .privacy-section {
+        font-size: 1.2rem;
+        color: #0f4c81;
+        margin-top: 25px;
+        font-weight: 600;
+    }
+    .notice-box {
+        background-color: #f4f7fa;
+        border: 1px solid #e1e8ed;
+        padding: 15px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+    }
+    ul { padding-left: 20px; }
+    li { margin-bottom: 8px; text-align: justify; }
+    p { text-align: justify; }
+</style>
+
+<div class="privacy-container">
+    <h1 class="privacy-title">Politique de Confidentialité</h1>
+    <p class="text-muted small">Dernière mise à jour : 3 juillet 2026</p>
+
+    <div class="notice-box">
+        <strong>Engagement de confiance :</strong> Chez KAMSA AUTO, la protection de vos données personnelles est une priorité absolue. Cette politique détaille la manière dont nous collectons, utilisons et protégeons vos informations dans le strict respect de la législation malienne sur la protection des données.
+    </div>
+
+    <h2 class="privacy-section">1. Responsable du Traitement des Données</h2>
+    <p>Les données collectées sur la plateforme sont traitées par l'équipe de <strong>KAMSA AUTO</strong>, dont le siège social est situé à KOROGORO, Bougouni Cercle, Sikasso, Mali.</p>
+
+    <h2 class="privacy-section">2. Les Données que nous collectons</h2>
+    <p>Dans le cadre de votre adhésion et de vos processus de réservation de véhicules, nous collectons les informations suivantes :</p>
+    <ul>
+        <li><strong>Informations de Profil :</strong> Votre nom complet, adresse e-mail et numéro de téléphone.</li>
+        <li><strong>Données de Réservation :</strong> Les détails du véhicule choisi, les dates de début et de fin de location, ainsi que le choix de l'option avec ou sans chauffeur.</li>
+        <li><strong>Données Techniques :</strong> Vos dates de dernière connexion ainsi que les cookies essentiels pour maintenir votre session active.</li>
+    </ul>
+
+    <h2 class="privacy-section">3. Finalités du Traitement</h2>
+    <p>Vos données personnelles sont exclusivement utilisées pour :</p>
+    <ul>
+        <li>La gestion, validation et le suivi en temps réel de vos réservations via votre espace "Compte".</li>
+        <li>La mise à disposition d'un support client efficace et disponible 24h/24 et 7j/7 au +223 20 20 21 21.</li>
+        <li>La configuration technique et la simulation des flux de paiement mobile (Mobile Money) pour simplifier vos futures transactions.</li>
+    </ul>
+
+    <h2 class="privacy-section">4. Sécurité et Partage</h2>
+    <p>Toutes les informations personnelles saisies sur notre plateforme sont cryptées. Seul le personnel habilité de notre support client ou les partenaires stratégiques directement impliqués dans la mise à disposition de votre véhicule (comme <em>La Malienne de l'Automobile</em>) ont accès aux éléments strictement nécessaires à leur exécution.</p>
+
+    <h2 class="privacy-section">5. Vos Droits (Conformité Mali)</h2>
+    <p>Conformément aux dispositions légales relatives à la protection des données personnelles, vous disposez d'un droit d'accès, de rectification et de suppression des données vous concernant. Vous pouvez modifier vos informations à tout moment directement depuis votre interface client en cliquant sur le bouton <strong>"Modifier mes informations"</strong>.</p>
+</div>
+{% endblock %}

@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Termes et Conditions - KAMSA Auto{% endblock %}{% block content %}
+
+    <style>
+        @page {
+            size: A4;
+            margin: 15mm 12mm;
+            background-color: #ffffff;
+        }
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            color: #333333;
+            margin: 0;
+            padding: 0;
+            font-size: 10pt;
+            line-height: 1.5;
+            background-color: #ffffff;
+        }
+        
+        .header-container {
+            border-bottom: 2px solid #0f4c81;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .logo-text {
+            font-size: 18pt;
+            font-weight: bold;
+            color: #0b1a30;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .logo-accent {
+            color: #0f4c81;
+        }
+        
+        .tagline {
+            font-size: 10pt;
+            font-style: italic;
+            color: #666666;
+            margin-top: 5px;
+        }
+
+        h1 {
+            font-size: 20pt;
+            color: #0b1a30;
+            margin: 0 0 5px 0;
+            font-weight: 700;
+        }
+
+        .date-update {
+            font-size: 9pt;
+            color: #888888;
+            margin-bottom: 20px;
+        }
+        
+        h2 {
+            font-size: 12pt;
+            color: #0f4c81;
+            margin: 20px 0 8px 0;
+            padding-left: 6px;
+            border-left: 3px solid #0f4c81;
+            page-break-after: avoid;
+        }
+
+        p {
+            margin: 0 0 10px 0;
+            text-align: justify;
+        }
+
+        ol {
+            margin: 0 0 15px 0;
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 6px;
+            text-align: justify;
+        }
+
+        
+    </style>
+<section class="py-24">
+    <div class="header-container">
+        <div class="logo-text">KAMSA <span class="logo-accent">AUTO</span></div>
+        <div class="tagline">Conditions Générales d'Utilisation et de Vente (CGU/CGV)</div>
+    </div>
+
+    <h1>Termes et Conditions</h1>
+    <div class="date-update">Dernière mise à jour : 3 juillet 2026</div>
+
+    <div class="important-notice">
+        <strong>Veuillez lire attentivement :</strong> L'utilisation de la plateforme KAMSA AUTO et la réservation de véhicules sont soumises aux présentes conditions générales. En accédant à nos services, vous acceptez sans réserve l'intégralité de ces termes.
+    </div>
+
+    <h2>1. Objet et Portée</h2>
+    <p>
+        Les présentes Conditions Générales ont pour objet de définir les modalités et conditions dans lesquelles la plateforme <strong>KAMSA AUTO</strong> met à la disposition de ses utilisateurs un système de réservation en ligne de véhicules au Mali (Bamako et régions), avec ou sans chauffeur.
+    </p>
+
+    <h2>2. Conditions d'Éligibilité du Locataire</h2>
+    <p>Pour toute réservation et prise en charge d'un véhicule sur KAMSA AUTO, le conducteur principal doit impérativement remplir les critères suivants :</p>
+    <ol>
+        <li><strong>Âge minimum :</strong> Être âgé d'au moins 21 ans (25 ans pour la catégorie Prestige/Luxe comme les Mercedes Classe S ou Classe V).</li>
+        <li><strong>Permis de conduire :</strong> Titulaire d'un permis de conduire valide et en vigueur depuis plus de 2 ans, correspondant à la catégorie du véhicule loué. Un permis international ou une autorisation légale est requis pour les conducteurs non-résidents au Mali.</li>
+        <li><strong>Pièces justificatives :</strong> Présentation d'une pièce d'identité officielle en cours de validité (Passeport ou Carte Nationale d'Identité) et d'un justificatif d'adhésion ou profil client validé sur la plateforme.</li>
+    </ol>
+
+    <h2>3. Réservation et Tarification</h2>
+    <p>
+        Les réservations s'effectuent via l'interface en ligne en renseignant le lieu de prise en charge, la date de début et la date de fin de location.
+    </p>
+    <ol>
+        <li><strong>Tarification :</strong> Les tarifs affichés sont calculés par tranche de 24 heures (ex: 145 000 FCFA/jour pour la Mercedes Classe E Coupé, 140 000 FCFA/jour pour le Kia Sportage).</li>
+        <li><strong>Option Chauffeur :</strong> L'option d'accompagnement par un chauffeur professionnel est facturée en supplément (supplément standard de 10 000 FCFA par jour), calculée automatiquement dans le prix total de la réservation.</li>
+        <li><strong>Disponibilité :</strong> En cas d'indisponibilité imprévue du véhicule sélectionné, KAMSA AUTO s'engage à fournir un véhicule de catégorie équivalente ou supérieure sans surcoût.</li>
+    </ol>
+
+    <h2>4. Modalités de Paiement et Simulation</h2>
+    <p>
+        Dans sa phase actuelle de développement et de test, KAMSA AUTO utilise un système sécurisé de <strong>simulation de paiement</strong> et intègre des structures de configuration adaptées aux solutions de paiement mobile (Mobile Money - Orange Money, Moov Money, Wave). Aucune transaction bancaire réelle complexe n'est exigée durant cette phase de validation technique de l'espace client.
+    </p>
+
+    <h2>5. Annulation et Modification</h2>
+    <p>
+        Toute demande d'annulation ou de modification de réservation s'effectue directement depuis l'espace personnel "Compte" de l'adhérent.
+    </p>
+    <ol>
+        <li>Les annulations effectuées plus de 48 heures avant la prise en charge du véhicule ne subissent aucune pénalité virtuelle.</li>
+        <li>Pour les annulations tardives (moins de 24 heures), KAMSA AUTO se réserve le droit d'appliquer les conditions de restriction prévues sur la plateforme.</li>
+    </ol>
+
+    <h2>6. Obligations du Locataire et Utilisation du Véhicule</h2>
+    <p>
+        Le locataire s'engage à utiliser le véhicule en "bon père de famille" et à respecter scrupuleusement le code de la route en vigueur au Mali. Il est strictement interdit de :
+    </p>
+    <ol>
+        <li>Sous-louer le véhicule ou le confier à un conducteur non déclaré lors de la réservation.</li>
+        <li>Utiliser le véhicule pour le transport de marchandises illicites ou dangereuses.</li>
+        <li>Circuler en dehors des zones géographiques autorisées ou sur des pistes impraticables risquant d'endommager le châssis ou la carrosserie.</li>
+    </ol>
+
+    <h2>7. Responsabilité et Sinistres</h2>
+    <p>
+        En cas d'accident, de panne, de vol ou de dégradation du véhicule, l'utilisateur doit en informer immédiatement le service client de KAMSA AUTO via le support disponible 24h/24 et 7j/7 au <strong>+223 20 20 21 21</strong>. Un constat écrit ou un rapport de police devra être fourni dans les plus brefs délais pour toute prise en charge.
+    </p>
+
+    <h2>8. Droit Applicable et Juridiction</h2>
+    <p>
+        Les présentes conditions sont régies par le droit malien. Tout litige relatif à leur interprétation ou à leur exécution qui ne pourrait être réglé à l'amiable sera soumis à la compétence exclusive des tribunaux de Bamako.
+    </p>
+</section>
+
+    {% endblock %}

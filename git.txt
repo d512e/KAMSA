@@ -1,6 +1,6 @@
 git add *
 git status
-git commit -m "finaly" 
+git commit -m "hummm" 
 git push --set-upsream origin master
 
 pip freeze > requirements.txt

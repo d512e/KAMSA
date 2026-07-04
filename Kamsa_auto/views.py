@@ -27,6 +27,14 @@ def booking_success(request):
 def contact(request):
     return render(request, 'contact.html')
 
+def apropos(request):
+    return render(request, 'apropos.html')
+
+def termes_conditions(request):
+    return render(request, 'termes_et_conditions.html')
+
+def politique_confidentialite(request):
+    return render(request, 'vehicules/confidentialite.html')
 
 # --- AUTHENTIFICATION ---
 def inscription(request):

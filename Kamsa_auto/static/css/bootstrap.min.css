@@ -339,6 +339,8 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
     --tw-shadow-colored: 0 25px 50px -12px var(--tw-shadow-color);
     box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
+.shadow-xl { box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
+
 .opacity-0 {
     opacity: 0;
 }
@@ -647,7 +649,6 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
     box-shadow:0 5px 20px rgba(0,0,0,0.05);
     transition:0.3s;
     max-width: 300px;
-    max-height: 500px;
 }
 
 .card:hover{
@@ -1197,7 +1198,7 @@ body{
     
     }
     
-    select, input[type=text],
+    input[type=text],
     input[type=date]{
     
     width:100%;
@@ -1407,6 +1408,36 @@ hr {
 }
 
 
+/*_ _ _ _ _ _ _ _ _ _ _ _  Apropos & terms/conditions  _ _ _ _ _ _ _ __ _ _ _ _ _*/
 
-
-
+.header-container {
+    border-bottom: 2px solid #0f4c81;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+}
+.logo-text {
+    font-size: 20pt;
+    font-weight: bold;
+    color: #0b1a30;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: inline-block;
+}
+.logo-accent {
+    color: #0f4c81;
+}
+.important-notice {
+    background-color: #fff9e6;
+    border: 1px solid #ffe0b2;
+    padding: 12px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+.footer-title {
+    color: white; 
+    font-size: 16px
+}
+.footer-text {
+    color: rgb(156 163 175 / var(--tw-text-opacity, 1));
+    font-size: 16px
+}

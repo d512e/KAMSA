@@ -3,7 +3,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>KAMSA Auto</title>
+        <title>{% block title %}KAMSA Auto{% endblock %}</title>
         <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
         <script src="{% static 'js/bootstrap.min.js' %}"></script>
         <script src="{% static 'js/filtre_vehicules.js' %}"></script>
@@ -29,35 +29,96 @@
         {% block content %}
 
         {% endblock %}
+        
+
         <footer class="">
             <div class="footer-div">
                 <div class="slogan2">
                     <div class="first">
-                        <a class="logo" style="color: white">KAMSA AUTO</a>
+                        <a class="footer-title">KAMSA AUTO</a>
                     </div>
                     <p class="" style="color: rgb(156 163 175 / var(--tw-text-opacity, 1));">Redéfinir l'expérience de la location de voitures grâce à un service haut de gamme, une tarification transparente et une flotte moderne de véhicules de classe mondiale.</p>
                 </div>
 
                 <div>
-                    <div class="first"><h4 style="color: white; font-size: 16px">Notre Compagnie</h4></div>
-                        <ul style="color: rgb(156 163 175 / var(--tw-text-opacity, 1));">
-                            <li><a href="#" class="">About Us</a></li>
-                            <li><a href="#" class="">Terms & Conditions</a></li>
-                            <li><a href="#" class="">Privacy Policy</a></li>
+                    <div class="first"><h4 class="footer-title">Notre Compagnie</h4></div>
+                        <ul class="footer-text ">
+                            <li><a href="{% url "apropos" %}">Apropos</a></li>
+                            <li><a href="{% url "terms_conditions" %}">Termes & Conditions</a></li>
+                            <li><a href="{% url "politique_confidentialite" %}">Privacy Policy</a></li>
+                            
                         </ul>
                 </div>
 
-                <div>
-                    <div class="first"><h4 style="color: white; font-size: 16px">Nos Reseaux</h4></div>
-                    <div class="" >
-                        <a href="#" class=""><i data-lucide="instagram" class="w-4 h-4"></i></a>
-                        <a href="#" class=""><i data-lucide="linkedin" class="w-4 h-4"></i></a>
-                        <a href="#" class=""><i data-lucide="twitter" class="w-4 h-4"></i></a>
-                    </div>
+                <div class="container p-4 pb-0">
+                    <div class="first"><h4 class="footer-text ">Nos Reseaux</h4></div>
+                    <!-- Section: Social media -->
+                    <div class="mb-4">
+                    <!-- Facebook -->
+                    <a
+                    data-mdb-ripple-init
+                        class="btn text-white btn-floating m-1"
+                        style="background-color: #3b5998;"
+                        href="#!"
+                        role="button"
+                        ><i class="fab fa-facebook-f"></i
+                    ></a>
+
+                    <!-- Twitter -->
+                    <a
+                        data-mdb-ripple-init
+                        class="btn text-white btn-floating m-1"
+                        style="background-color: #55acee;"
+                        href="#!"
+                        role="button"
+                        ><i class="fab fa-twitter"></i
+                    ></a>
+
+                    <!-- Google -->
+                    <a
+                        data-mdb-ripple-init
+                        class="btn text-white btn-floating m-1"
+                        style="background-color: #dd4b39;"
+                        href="#!"
+                        role="button"
+                        ><i class="fab fa-google"></i
+                    ></a>
+
+                    <!-- Instagram -->
+                    <a
+                        data-mdb-ripple-init
+                        class="btn text-white btn-floating m-1"
+                        style="background-color: #ac2bac;"
+                        href="#!"
+                        role="button"
+                        ><i class="fab fa-instagram"></i
+                    ></a>
+
+                    <!-- Linkedin -->
+                    <a
+                        data-mdb-ripple-init
+                        class="btn text-white btn-floating m-1"
+                        style="background-color: #0082ca;"
+                        href="#!"
+                        role="button"
+                        ><i class="fab fa-linkedin-in"></i
+                    ></a>
+                    <!-- Github -->
+                    <a
+                        data-mdb-ripple-init
+                        class="btn text-white btn-floating m-1"
+                        style="background-color: #333333;"
+                        href="#!"
+                        role="button"
+                        ><i class="fab fa-github"></i
+                    ></a>
+                        </div>
+                    <!-- Section: Social media -->
                 </div>
+                <!-- Grid container -->
             </div>
             <hr>
-            <div class="end" style="color: rgb(156 163 175 / var(--tw-text-opacity, 1))">
+            <div class="end" style=")">
                 © 2026 KAMSA Auto. Tous droits réservés.
              </div>
         </footer>

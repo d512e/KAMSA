@@ -1,6 +1,8 @@
 git add *
 git status
-git commit -m "hummm" 
+git commit -m "hummmx2" 
 git push --set-upsream origin master
 
 pip freeze > requirements.txt
+
+

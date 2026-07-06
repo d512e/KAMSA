@@ -243,6 +243,9 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 .px-1px {
     padding-left: 8px;
 }
+.px-1-5 {
+    padding-right: 2rem;
+}
 .p-10 {
     padding: 2.5rem;
 }
@@ -965,7 +968,7 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*/
 
 
 .container{
-    width: 500px;
+    max-width: 500px;
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1),

@@ -8,14 +8,12 @@
     <h2 class="text-center text-3xl font-montserrat font-bold py-6">RÉSERVEZ VOTRE VÉHICULE</h2>
     <div class="reservation-container px-12">
 
-        <!-- formulaire -->
         <div class="reservation-card">
             <h2>Détails de votre Réservation</h2>
 
-            <form method="POST" action="">
+            <form method="POST" action="{% url 'reservation_vehicule' vehicule.id %}">
                 {% csrf_token %}
 
-                <!-- Affichage des erreurs générales du formulaire -->
                 {% if form.non_field_errors %}
                 <div class="important-notice">
                     {{ form.non_field_errors }}
@@ -23,31 +21,37 @@
                 {% endif %}
 
                 <label>Véhicule sélectionné</label>
-                <select>
-                <option>{{ vehicule.marque }} {{ vehicule.nom }}</option>
+                <select disabled>
+                    <option>{{ vehicule.marque }} {{ vehicule.nom }}</option>
                 </select>
 
                 <div class="row">
-                    <div>
+                    <div id="bloc-date-debut">
                         <label>Date de début</label>
-                        <input type="date" id="date_debut" name="date_debut" required>
+                        <input type="date" id="id_date_debut" name="date_debut" required>
                     </div>
 
-                    <div>
+                    <div id="bloc-date-fin">
                         <label>Date de fin</label>
-                        <input type="date" id="date_fin" name="date_fin" required>
+                        <input type="date" id="id_date_fin" name="date_fin" required>
                     </div>
                 </div>
 
-                <fieldset class="option">
-                    <legend style="font-size: 16px; font-weight: 600;">Option chauffeur</legend>
-                    <label class="driver" for="chauffeurCheckbox" style="font-size: 16px; color: gray ;">
-                        <input type="checkbox" id="chauffeurCheckbox" name="chauffeur" style="font-size: 16px; color: gray">
+                <fieldset class="option" style="margin-top: 15px; border: 1px solid #e5e7eb; padding: 15px; border-radius: 8px;">
+                    <legend style="font-size: 16px; font-weight: 600; padding: 0 5px;">Options & Forfaits</legend>
+                    
+                    <label class="driver" for="id_chauffeur" style="font-size: 16px; color: gray; display: flex; align-items: center; margin-bottom: 10px; cursor: pointer;">
+                        <input type="checkbox" id="id_chauffeur" name="chauffeur" style="margin-right: 8px;">
                         Inclure un chauffeur (+10 000 FCFA / jour)
+                    </label>
+
+                    <label class="driver" for="id_abonnement" style="font-size: 16px; color: gray; display: flex; align-items: center; cursor: pointer;">
+                        <input type="checkbox" id="id_abonnement" name="abonnement_mensuel" style="margin-right: 8px;">
+                        Abonnement mensuel (-15% de réduction)
                     </label>
                 </fieldset>
 
-                <hr>
+                <hr style="margin: 20px 0; border: 0; border-top: 1px solid #e5e7eb;">
 
                 <div class="price">
                     <span class="span1">Prix par jour :</span>
@@ -56,28 +60,27 @@
 
                 <div class="price">
                     <span class="span1">Nombre de jours :</span>
-                    <span id="nbrJoursText" class="span2">1</span>
+                    <span id="nbrJoursText" class="span2">0</span>
                 </div>
 
-                <div class="price">
-                    <span class="span1">Total estimé :</span>
-                    <div><span id="prixTotal" data-prix="{{ vehicule.prix_par_jour }}" class="span2">--</span> FCFA</div>
+                <div class="price" style="background-color: #eff6ff; padding-top: 10px; padding-bottom: 10px; border-radius: 6px; margin-top: 10px;">
+                    <span class="price-total" style="font-weight: bold; color: #1e40af;">Total estimé :</span>
+                    <div><span id="affichage-prix-total" >0</span> FCFA</div>
                 </div>
                                 
-                <div class="d-flex flex-column align-items-center">
+                <div class="d-flex flex-column align-items-center" style="margin-top: 20px;">
                     <button type="submit" class="btn btn-custom">
                         <i class="fa-solid fa-lock"></i>
-                        PROCCEDER AU PAYEMENT
+                        PROCÉDER AU PAIEMENT
                     </button>
                 </div>
             </form>
         </div>
 
 
-        <!-- voiture -->
         <div class="vehicle-card">
             {% if vehicule.image %}
-            <img src="{{ vehicule.image.url }}" alt="{{ vehicule.nom }}" class="w-full h-48 object-cover rounded-2xl shadow-sm">
+                <img src="{{ vehicule.image.url }}" alt="{{ vehicule.nom }}" class="w-full h-48 object-cover rounded-2xl shadow-sm">
             {% else %}
                 <img src="https://via.placeholder.com/400x250" alt="Image par défaut" class="w-full h-48 object-cover rounded-2xl shadow-sm">
             {% endif %}
@@ -91,50 +94,101 @@
 
 </section>
 
-<!-- CALCUL DYNAMIQUE EN JAVASCRIPT -->
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const dateDebutInput = document.getElementById('date_debut');
-        const dateFinInput = document.getElementById('date_fin');
-        const chauffeurCheckbox = document.getElementById('chauffeurCheckbox');
-        const prixTotalSpan = document.getElementById('prixTotal');
-        const nbrJoursText = document.getElementById('nbrJoursText');
+function calculerPrixEnTempsReel() {
+    // 1. Récupération du prix de base du véhicule depuis le contexte Django
+    var prixParJourVehicule = parseFloat("{{ vehicule.prix_par_jour }}");
+    var tarifJourChauffeur = 10000; 
 
-        const prixParJour = parseFloat(prixTotalSpan.getAttribute('data-prix'));
+    // 2. Récupération des éléments du formulaire
+    var inputDateDebut = document.getElementById("id_date_debut");
+    var inputDateFin = document.getElementById("id_date_fin");
+    var caseChauffeur = document.getElementById("id_chauffeur");
+    var caseAbonnement = document.getElementById("id_abonnement");
+    var affichageTotal = document.getElementById("affichage-prix-total");
+    var affichageJours = document.getElementById("nbrJoursText");
+    
+    var blocDateDebut = document.getElementById("bloc-date-debut");
+    var blocDateFin = document.getElementById("bloc-date-fin");
 
-        function calculerPrixTotal() {
-            const dateDebut = new Date(dateDebutInput.value);
-            const dateFin = new Date(dateFinInput.value);
+    // Sécurité au cas où des éléments manqueraient
+    if (!inputDateDebut || !inputDateFin || !caseChauffeur || !caseAbonnement || !affichageTotal || !affichageJours) {
+        return;
+    }
+
+    var avecChauffeur = caseChauffeur.checked;
+    var avecAbonnement = caseAbonnement.checked;
+    
+    var totalBaseVehicule = 0;
+    var joursFactures = 0;
+
+    // 3. Logique de calcul selon la présence ou non de l'abonnement
+    if (avecAbonnement) {
+        joursFactures = 30;
+        // Formule : (Prix standard × 30 jours) - 15% de réduction
+        totalBaseVehicule = (prixParJourVehicule * joursFactures) * 0.85;
+
+        // Désactivation et atténuation visuelle des inputs de dates
+        inputDateDebut.disabled = true;
+        inputDateFin.disabled = true;
+        inputDateDebut.required = false;
+        inputDateFin.required = false;
+        if (blocDateDebut) blocDateDebut.style.opacity = "0.5";
+        if (blocDateFin) blocDateFin.style.opacity = "0.5";
+    } else {
+        inputDateDebut.disabled = false;
+        inputDateFin.disabled = false;
+        inputDateDebut.required = true;
+        inputDateFin.required = true;
+        if (blocDateDebut) blocDateDebut.style.opacity = "1";
+        if (blocDateFin) blocDateFin.style.opacity = "1";
+
+        var dateDebutValeur = inputDateDebut.value;
+        var dateFinValeur = inputDateFin.value;
+
+        if (dateDebutValeur && dateFinValeur) {
+            var d1 = new Date(dateDebutValeur);
+            var d2 = new Date(dateFinValeur);
             
-            let nbrJours = 1;
-
-            if (!isNaN(dateDebut) && !isNaN(dateFin) && dateFin > dateDebut) {
-                const diffTime = Math.abs(dateFin - dateDebut);
-                nbrJours = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            var diffTemps = d2.getTime() - d1.getTime();
+            joursFactures = Math.ceil(diffTemps / (1000 * 60 * 60 * 24));
+            
+            if (joursFactures <= 0) {
+                joursFactures = 1;
             }
-
-            // Mettre à jour l'affichage du nombre de jours
-            nbrJoursText.textContent = nbrJours;
-
-            // Calcul du prix total
-            let total = prixParJour * nbrJours;
-
-            if (chauffeurCheckbox.checked) {
-                total += (10000 * nbrJours); // Ajout des 10 000 FCFA par jour pour le chauffeur
-            }
-
-            // Mettre à jour l'affichage de la somme totale
-            prixTotalSpan.textContent = total.toLocaleString('fr-FR');
+        } else {
+            joursFactures = 0;
         }
 
-        // Initialisation lors du premier affichage de la page
-        calculerPrixTotal();
+        totalBaseVehicule = prixParJourVehicule * joursFactures;
+    }
 
-        // Écouteurs d'événements
-        dateDebutInput.addEventListener('change', calculerPrixTotal);
-        dateFinInput.addEventListener('change', calculerPrixTotal);
-        chauffeurCheckbox.addEventListener('change', calculerPrixTotal);
-    });
+    // 4. Ajout du coût quotidien du chauffeur
+    var totalGeneral = totalBaseVehicule;
+    if (avecChauffeur && joursFactures > 0) {
+        totalGeneral += (tarifJourChauffeur * joursFactures);
+    }
+
+    // 5. Affichage dynamique mis à jour
+    affichageJours.innerText = joursFactures;
+    affichageTotal.innerText = Math.round(totalGeneral).toLocaleString('fr-FR');
+}
+
+// 6. Gestionnaires d'écoute réactifs
+document.addEventListener("DOMContentLoaded", function() {
+    var inputDateDebut = document.getElementById("id_date_debut");
+    var inputDateFin = document.getElementById("id_date_fin");
+    var caseChauffeur = document.getElementById("id_chauffeur");
+    var caseAbonnement = document.getElementById("id_abonnement");
+
+    if (inputDateDebut) inputDateDebut.addEventListener("change", calculerPrixEnTempsReel);
+    if (inputDateFin) inputDateFin.addEventListener("change", calculerPrixEnTempsReel);
+    if (caseChauffeur) caseChauffeur.addEventListener("change", calculerPrixEnTempsReel);
+    if (caseAbonnement) caseAbonnement.addEventListener("change", calculerPrixEnTempsReel);
+
+    // Lancer le calcul à l'affichage initial
+    calculerPrixEnTempsReel();
+});
 </script>
 
 {% endblock %}

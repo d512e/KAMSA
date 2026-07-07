@@ -1247,12 +1247,19 @@ body{
     }
     
     .price{
-    
     display:flex;
     justify-content:space-between;
     margin:15px 0;
-    font-size:24px;
+    font-size:28px;
     align-items: center;
+    color: #1e40af;
+    padding-left: 10px;
+    padding-right: 10px;
+    }
+    .price-total{
+        font-size:20px;
+        color:black;
+        font-weight:bold;
     }
     
     /* CARTE VOITURE */

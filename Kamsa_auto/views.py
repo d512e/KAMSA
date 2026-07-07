@@ -1,4 +1,6 @@
 import uuid
+import datetime
+from django.utils import timezone
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -34,7 +36,8 @@ def termes_conditions(request):
     return render(request, 'termes_et_conditions.html')
 
 def politique_confidentialite(request):
-    return render(request, 'vehicules/confidentialite.html')
+    return render(request, 'politiques_et_confidentialite.html')
+
 
 # --- AUTHENTIFICATION ---
 def inscription(request):
@@ -69,6 +72,7 @@ def deconnexion(request):
 @login_required
 def reservation_vehicule(request, vehicule_id):
     vehicule = get_object_or_404(Vehicule, id=vehicule_id)
+    
     if request.method == 'POST':
         form = ReservationForm(request.POST)
         if form.is_valid():
@@ -76,23 +80,38 @@ def reservation_vehicule(request, vehicule_id):
             reservation.user = request.user
             reservation.vehicule = vehicule
             
-            # Calcul du prix côté serveur
-            delta_jours = (reservation.date_fin - reservation.date_debut).days
-            if delta_jours <= 0:
-                delta_jours = 1
-                
-            total = vehicule.prix_par_jour * delta_jours
-            
+            # Récupération des options choisies dans le formulaire HTML
+            est_abonnement = "abonnement_mensuel" in request.POST
             avec_chauffeur = "chauffeur" in request.POST
+            
+            # --- CALCUL DU PRIX ET DURÉE SELON LE MODE ---
+            if est_abonnement:
+                jours_factures = 30
+                # Formule : (Prix standard * 30 jours) - 15% de réduction
+                total_base = (vehicule.prix_par_jour * jours_factures) * 0.85
+                
+                # Assurer la cohérence des dates si l'utilisateur ne les a pas saisies
+                if not reservation.date_debut:
+                    reservation.date_debut = timezone.now().date()
+                reservation.date_fin = reservation.date_debut + datetime.timedelta(days=30)
+            else:
+                # Mode standard basé sur l'intervalle de dates choisi
+                delta_jours = (reservation.date_fin - reservation.date_debut).days
+                jours_factures = delta_jours if delta_jours > 0 else 1
+                total_base = vehicule.prix_par_jour * jours_factures
+            
+            # --- AJOUT DU CHAUFFEUR FACTURÉ PAR JOUR ---
             reservation.inclut_chauffeur = avec_chauffeur
             if avec_chauffeur:
-                total += 10000 
+                total_base += (10000 * jours_factures) # 10 000 FCFA par jour multiplié par le nombre de jours
                 
-            reservation.prix_total = total
+            # Attribution du prix total calculé au modèle
+            reservation.prix_total = int(total_base)
             
-            # Vérification des doublons de dates
+            # Vérification des conflits sur des dates identiques (uniquement pour les réservations payées)
             overlapping = Reservation.objects.filter(
                 vehicule=vehicule,
+                statut_paiement="paid",
                 date_debut__lt=reservation.date_fin,
                 date_fin__gt=reservation.date_debut
             )
@@ -104,10 +123,14 @@ def reservation_vehicule(request, vehicule_id):
                 return redirect('page_paiement', reservation_id=reservation.id)
         else:
             print(form.errors)
+            
     else:
         form = ReservationForm()
 
-    return render(request, 'reservation.html', {'form': form, 'vehicule': vehicule})
+    return render(request, 'reservation.html', {
+        'form': form,
+        'vehicule': vehicule
+    })
 
 @login_required
 def dashboard(request):
@@ -135,7 +158,7 @@ def profil_utilisateur(request):
     return render(request, 'profil.html', {'reservations': reservations})
 
 
-# --- ÉTAPES DU PAIEMENT SIMULÉ ---
+# --- ÉTAPES DU PAIEMENT SIMULÉ DYNAMIQUE ---
 @login_required
 def page_paiement(request, reservation_id):
     reservation = get_object_or_404(Reservation, id=reservation_id, user=request.user)
@@ -148,7 +171,7 @@ def initier_paiement(request, reservation_id):
     if request.method == "POST":
         moyen = request.POST.get("moyen_paiement", "Inconnu")
 
-        # 1. Vérification selon le choix
+        # Validation de simulation selon le choix (Carte vs Mobile)
         if moyen == "carte":
             nom_titulaire = request.POST.get("nom_carte", "").strip()
             num_carte = request.POST.get("numero_carte", "").strip()
@@ -166,7 +189,7 @@ def initier_paiement(request, reservation_id):
                 
             info_log = f"Compte {telephone}"
 
-        # 2. Processus de validation de la transaction simulée
+        # Simulation d'une validation instantanée réussie
         transaction = "PIZ-" + uuid.uuid4().hex[:12].upper()
 
         reservation.transaction_id = transaction
@@ -174,7 +197,7 @@ def initier_paiement(request, reservation_id):
         reservation.status = "confirmed"
         reservation.save()
 
-        # Message de notification dynamique
+        # Envoi du message flash de confirmation
         nom_moyen = "Carte Bancaire" if moyen == "carte" else moyen.upper()
         messages.success(
             request, 

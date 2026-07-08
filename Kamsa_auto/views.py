@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from .models import Client, Vehicule, Reservation 
 from .forms import ReservationForm, InscriptionForm, ProfilForm
+from decimal import Decimal  # <-- ÉTAPE 1 : AJOUTER CET IMPORT TOUT EN HAUT
 
 # --- VUES GÉNÉRALES ---
 def home(request):
@@ -87,15 +88,18 @@ def reservation_vehicule(request, vehicule_id):
             # --- CALCUL DU PRIX ET DURÉE SELON LE MODE ---
             if est_abonnement:
                 jours_factures = 30
-                # Formule : (Prix standard * 30 jours) - 15% de réduction
-                total_base = (vehicule.prix_par_jour * jours_factures) * 0.85
+                # CORRECTION : Utilisation de Decimal('0.85') pour éviter le crash
+                total_base = (vehicule.prix_par_jour * jours_factures) * Decimal('0.85')
                 
-                # Assurer la cohérence des dates si l'utilisateur ne les a pas saisies
+                # Assurer la cohérence des dates
                 if not reservation.date_debut:
                     reservation.date_debut = timezone.now().date()
                 reservation.date_fin = reservation.date_debut + datetime.timedelta(days=30)
             else:
                 # Mode standard basé sur l'intervalle de dates choisi
+                # NOTE : Si l'input date_fin était 'disabled' côté client au moment du clic sur l'abonnement,
+                # il n'est pas envoyé en POST. Mais comme on est dans le bloc 'else', l'abonnement n'est pas coché,
+                # donc l'input est bien actif et sa valeur est présente.
                 delta_jours = (reservation.date_fin - reservation.date_debut).days
                 jours_factures = delta_jours if delta_jours > 0 else 1
                 total_base = vehicule.prix_par_jour * jours_factures
@@ -103,9 +107,10 @@ def reservation_vehicule(request, vehicule_id):
             # --- AJOUT DU CHAUFFEUR FACTURÉ PAR JOUR ---
             reservation.inclut_chauffeur = avec_chauffeur
             if avec_chauffeur:
-                total_base += (10000 * jours_factures) # 10 000 FCFA par jour multiplié par le nombre de jours
+                # CORRECTION : Conversion du tarif du chauffeur en Decimal
+                total_base += (Decimal('10000') * jours_factures)
                 
-            # Attribution du prix total calculé au modèle
+            # Attribution du prix total calculé au modèle (transtypé en int si votre modèle attend un IntegerField)
             reservation.prix_total = int(total_base)
             
             # Vérification des conflits sur des dates identiques (uniquement pour les réservations payées)

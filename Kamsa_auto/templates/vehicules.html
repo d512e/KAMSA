@@ -30,14 +30,20 @@
 
         {% for vehicule in vehicules %}
 
-        <!-- Ajout de la catégorie dynamique sur la carte pour le filtrage JS -->
         <div class="card" data-category="{{ vehicule.categorie }}">
 
-            {% if vehicule.image %}
-                <img src="{{ vehicule.image.url }}" alt="{{ vehicule.nom }}">
-            {% else %}
-                <img src="https://via.placeholder.com/400x250" alt="image">
-            {% endif %}
+            <div class="card-image-container">
+                {% if vehicule.image %}
+                    <img src="{{ vehicule.image.url }}" alt="{{ vehicule.nom }}">
+                {% else %}
+                    <img src="https://via.placeholder.com/400x250" alt="image">
+                {% endif %}
+
+                <div class="description-dropdown">
+                    <h3>Description détaillée :</h3>
+                    <p>{{ vehicule.description }}</p>
+                </div>
+            </div>
 
             <div class="card-content">
 
@@ -48,10 +54,6 @@
                 <p class="prix">
                     {{ vehicule.prix_par_jour }} FCFA / jour
                 </p>
-
-                <p class="description">
-                    {{ vehicule.description|truncatewords:20 }}
-                </p>
                 
                 {% if user.is_authenticated %}
                 <a href="{% url 'reservation_vehicule' vehicule.id %}" class="btn btn-outline-dark">Réserver</a>
@@ -61,7 +63,6 @@
                     Réserver
                 </a>
                 {% endif %}
-                
 
             </div>
 

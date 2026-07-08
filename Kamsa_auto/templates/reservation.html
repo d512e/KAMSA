@@ -95,100 +95,117 @@
 </section>
 
 <script>
-function calculerPrixEnTempsReel() {
-    // 1. Récupération du prix de base du véhicule depuis le contexte Django
-    var prixParJourVehicule = parseFloat("{{ vehicule.prix_par_jour }}");
-    var tarifJourChauffeur = 10000; 
-
-    // 2. Récupération des éléments du formulaire
-    var inputDateDebut = document.getElementById("id_date_debut");
-    var inputDateFin = document.getElementById("id_date_fin");
-    var caseChauffeur = document.getElementById("id_chauffeur");
-    var caseAbonnement = document.getElementById("id_abonnement");
-    var affichageTotal = document.getElementById("affichage-prix-total");
-    var affichageJours = document.getElementById("nbrJoursText");
+    function calculerPrixEnTempsReel() {
+        var prixParJourVehicule = parseFloat("{{ vehicule.prix_par_jour }}");
+        var tarifJourChauffeur = 10000; 
     
-    var blocDateDebut = document.getElementById("bloc-date-debut");
-    var blocDateFin = document.getElementById("bloc-date-fin");
-
-    // Sécurité au cas où des éléments manqueraient
-    if (!inputDateDebut || !inputDateFin || !caseChauffeur || !caseAbonnement || !affichageTotal || !affichageJours) {
-        return;
-    }
-
-    var avecChauffeur = caseChauffeur.checked;
-    var avecAbonnement = caseAbonnement.checked;
+        var inputDateDebut = document.getElementById("id_date_debut");
+        var inputDateFin = document.getElementById("id_date_fin");
+        var caseChauffeur = document.getElementById("id_chauffeur");
+        var caseAbonnement = document.getElementById("id_abonnement");
+        var affichageTotal = document.getElementById("affichage-prix-total");
+        var affichageJours = document.getElementById("nbrJoursText");
+        
+        var blocDateFin = document.getElementById("bloc-date-fin");
     
-    var totalBaseVehicule = 0;
-    var joursFactures = 0;
-
-    // 3. Logique de calcul selon la présence ou non de l'abonnement
-    if (avecAbonnement) {
-        joursFactures = 30;
-        // Formule : (Prix standard × 30 jours) - 15% de réduction
-        totalBaseVehicule = (prixParJourVehicule * joursFactures) * 0.85;
-
-        // Désactivation et atténuation visuelle des inputs de dates
-        inputDateDebut.disabled = true;
-        inputDateFin.disabled = true;
-        inputDateDebut.required = false;
-        inputDateFin.required = false;
-        if (blocDateDebut) blocDateDebut.style.opacity = "0.5";
-        if (blocDateFin) blocDateFin.style.opacity = "0.5";
-    } else {
-        inputDateDebut.disabled = false;
-        inputDateFin.disabled = false;
-        inputDateDebut.required = true;
-        inputDateFin.required = true;
-        if (blocDateDebut) blocDateDebut.style.opacity = "1";
-        if (blocDateFin) blocDateFin.style.opacity = "1";
-
-        var dateDebutValeur = inputDateDebut.value;
-        var dateFinValeur = inputDateFin.value;
-
-        if (dateDebutValeur && dateFinValeur) {
-            var d1 = new Date(dateDebutValeur);
-            var d2 = new Date(dateFinValeur);
-            
-            var diffTemps = d2.getTime() - d1.getTime();
-            joursFactures = Math.ceil(diffTemps / (1000 * 60 * 60 * 24));
-            
-            if (joursFactures <= 0) {
-                joursFactures = 1;
-            }
-        } else {
-            joursFactures = 0;
+        if (!inputDateDebut || !inputDateFin || !caseChauffeur || !caseAbonnement || !affichageTotal || !affichageJours) {
+            return;
         }
-
-        totalBaseVehicule = prixParJourVehicule * joursFactures;
+    
+        var avecChauffeur = caseChauffeur.checked;
+        var avecAbonnement = caseAbonnement.checked;
+        
+        var totalBaseVehicule = 0;
+        var joursFactures = 0;
+    
+        // Si la date de début n'est pas saisie, on s'arrête
+        if (!inputDateDebut.value) {
+            return;
+        }
+    
+        var dateDebut = new Date(inputDateDebut.value);
+    
+        if (avecAbonnement) {
+            // --- MODE ABONNEMENT (Bloqué à 30 jours) ---
+            joursFactures = 30;
+            totalBaseVehicule = (prixParJourVehicule * joursFactures) * 0.85;
+    
+            // Calcul automatique à +30 jours
+            var dateFinCalculée = new Date(dateDebut);
+            dateFinCalculée.setDate(dateDebut.getDate() + 30);
+            
+            // On remplit et on verrouille le champ date de fin
+            inputDateFin.value = dateFinCalculée.toISOString().split('T')[0];
+            inputDateFin.disabled = true; 
+            if (blocDateFin) blocDateFin.style.opacity = "0.5";
+    
+        } else {
+            // --- MODE STANDARD (Libre choix des dates) ---
+            inputDateFin.disabled = false;
+            if (blocDateFin) blocDateFin.style.opacity = "1";
+    
+            var dateFinValeur = inputDateFin.value;
+    
+            if (dateDebut && dateFinValeur) {
+                var dateFin = new Date(dateFinValeur);
+                
+                // Calcul de la différence réelle en jours
+                var diffTemps = dateFin.getTime() - dateDebut.getTime();
+                joursFactures = Math.ceil(diffTemps / (1000 * 60 * 60 * 24));
+                
+                if (joursFactures <= 0) {
+                    joursFactures = 1; // Sécurité si dates identiques ou inversées
+                }
+            } else {
+                // Si l'utilisateur n'a pas encore choisi sa date de fin
+                joursFactures = 0;
+            }
+    
+            totalBaseVehicule = prixParJourVehicule * joursFactures;
+        }
+    
+        // 4. Ajout du coût du chauffeur par jour
+        var totalGeneral = totalBaseVehicule;
+        if (avecChauffeur && joursFactures > 0) {
+            totalGeneral += (tarifJourChauffeur * joursFactures);
+        }
+    
+        // 5. Mise à jour de l'affichage
+        affichageJours.innerText = joursFactures;
+        affichageTotal.innerText = Math.round(totalGeneral).toLocaleString('fr-FR');
     }
-
-    // 4. Ajout du coût quotidien du chauffeur
-    var totalGeneral = totalBaseVehicule;
-    if (avecChauffeur && joursFactures > 0) {
-        totalGeneral += (tarifJourChauffeur * joursFactures);
-    }
-
-    // 5. Affichage dynamique mis à jour
-    affichageJours.innerText = joursFactures;
-    affichageTotal.innerText = Math.round(totalGeneral).toLocaleString('fr-FR');
-}
-
-// 6. Gestionnaires d'écoute réactifs
-document.addEventListener("DOMContentLoaded", function() {
-    var inputDateDebut = document.getElementById("id_date_debut");
-    var inputDateFin = document.getElementById("id_date_fin");
-    var caseChauffeur = document.getElementById("id_chauffeur");
-    var caseAbonnement = document.getElementById("id_abonnement");
-
-    if (inputDateDebut) inputDateDebut.addEventListener("change", calculerPrixEnTempsReel);
-    if (inputDateFin) inputDateFin.addEventListener("change", calculerPrixEnTempsReel);
-    if (caseChauffeur) caseChauffeur.addEventListener("change", calculerPrixEnTempsReel);
-    if (caseAbonnement) caseAbonnement.addEventListener("change", calculerPrixEnTempsReel);
-
-    // Lancer le calcul à l'affichage initial
-    calculerPrixEnTempsReel();
-});
-</script>
+    
+    // Soumission du formulaire : Django a besoin que le champ ne soit pas "disabled" au moment de l'envoi
+    // sinon la valeur n'est pas transmise dans la requête POST.
+    document.querySelector("form").addEventListener("submit", function() {
+        document.getElementById("id_date_fin").disabled = false;
+    });
+    
+    // Écouteurs d'événements
+    document.addEventListener("DOMContentLoaded", function() {
+        var inputDateDebut = document.getElementById("id_date_debut");
+        var inputDateFin = document.getElementById("id_date_fin");
+        var caseChauffeur = document.getElementById("id_chauffeur");
+        var caseAbonnement = document.getElementById("id_abonnement");
+    
+        if (inputDateDebut) {
+            var today = new Date().toISOString().split('T')[0];
+            inputDateDebut.min = today;
+            // On lie aussi le minimum de la date de fin à la date de début
+            inputDateDebut.addEventListener("change", function() {
+                if (inputDateFin && !caseAbonnement.checked) {
+                    inputDateFin.min = inputDateDebut.value;
+                }
+            });
+        }
+    
+        if (inputDateDebut) inputDateDebut.addEventListener("change", calculerPrixEnTempsReel);
+        if (inputDateFin) inputDateFin.addEventListener("change", calculerPrixEnTempsReel);
+        if (caseChauffeur) caseChauffeur.addEventListener("change", calculerPrixEnTempsReel);
+        if (caseAbonnement) caseAbonnement.addEventListener("change", calculerPrixEnTempsReel);
+    
+        calculerPrixEnTempsReel();
+    });
+    </script>
 
 {% endblock %}

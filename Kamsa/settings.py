@@ -25,7 +25,9 @@ SECRET_KEY = 'django-insecure-@$sck24eq&r9c^42=r-k0e!oyta6$e-p+7nt+k)q$ivr9!wze#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+
+]
 
 
 # Application definition
@@ -124,7 +126,7 @@ STATICFILES_DIRS = [BASE_DIR / 'Kamsa_auto' / 'static',]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.100.87']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.100.87', 'dside.pythonanywhere.com']
 
 # --- CONFIGURATION PAIEMENT SANDBOX (TESTS) ---
 BCEAO_AUTH_URL = "https://piz-simulateur-business-sandbox.auth.eu-west-1.amazoncognito.com/oauth2/token"

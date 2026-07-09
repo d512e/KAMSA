@@ -2,12 +2,16 @@ from django import forms
 from .models import Reservation
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-
+from .models import Client
 
 class InscriptionForm(UserCreationForm):
-    class Meta:
+    email = forms.EmailField(required=True, label="Adresse Email")
+    telephone = forms.CharField(max_length=15, required=True, label="Numéro de Téléphone")
+    permis_conduire = forms.FileField(required=True, label="Photo du Permis de conduire")
+
+    class Meta(UserCreationForm.Meta):
         model = User
-        fields = ['username', 'email', 'password1', 'password2']
+        fields = UserCreationForm.Meta.fields + ('email',)
 
 
 class ReservationForm(forms.ModelForm):

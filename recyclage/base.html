@@ -72,9 +72,7 @@
         
             <a href="{% url 'contact' %}">Contact</a>
         
-        </div>
-        <div id="menu-overlay" class="menu-overlay"></div>
-
+        </div>        
         {% block content %}
 
         {% endblock %}
@@ -168,32 +166,30 @@
             
                 const btn = document.getElementById("menu-btn");
                 const menu = document.getElementById("mobile-menu");
-                const overlay = document.getElementById("menu-overlay");
-
-                function openMenu(){
-                    menu.classList.add("active");
-                    overlay.classList.add("active");
-                    document.body.classList.add("no-scroll");
-                    btn.innerHTML = '<i class="fas fa-times"></i>';
-                }
-
-                function closeMenu(){
-                    menu.classList.remove("active");
-                    overlay.classList.remove("active");
-                    document.body.classList.remove("no-scroll");
-                    btn.innerHTML = '<i class="fas fa-bars"></i>';
-                }
-
+            
                 btn.addEventListener("click", function () {
-                    menu.classList.contains("active") ? closeMenu() : openMenu();
+            
+                    menu.classList.toggle("active");
+            
+                    if(menu.classList.contains("active")){
+                        btn.innerHTML='<i class="fas fa-times"></i>';
+                    }else{
+                        btn.innerHTML='<i class="fas fa-bars"></i>';
+                    }
+            
                 });
-
-                overlay.addEventListener("click", closeMenu);
-
+            
                 document.querySelectorAll("#mobile-menu a").forEach(link=>{
-                    link.addEventListener("click", closeMenu);
+            
+                    link.addEventListener("click",()=>{
+            
+                        menu.classList.remove("active");
+                        btn.innerHTML='<i class="fas fa-bars"></i>';
+            
+                    });
+            
                 });
-
+            
             });
             </script>
     </body>

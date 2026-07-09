@@ -43,13 +43,27 @@ def politique_confidentialite(request):
 # --- AUTHENTIFICATION ---
 def inscription(request):
     if request.method == 'POST':
-        form = InscriptionForm(request.POST)
+        form = InscriptionForm(request.POST, request.FILES)
         if form.is_valid():
+            # 1. Sauvegarde de l'utilisateur (User standard)
             user = form.save()
-            Client.objects.create(user=user, telephone="")
+            
+            # 2. Récupération des champs personnalisés
+            telephone = form.cleaned_data.get('telephone')
+            permis = form.cleaned_data.get('permis_conduire')
+            
+            # 3. Création du profil Client associé
+            Client.objects.create(
+                user=user,
+                telephone=telephone,
+                permis_conduire=permis
+            )
+            
+            messages.success(request, "Inscription réussie ! Vous pouvez maintenant vous connecter.")
             return redirect('connexion')
     else:
         form = InscriptionForm()
+        
     return render(request, 'inscription.html', {'form': form})
 
 def connexion(request):

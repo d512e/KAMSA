@@ -5,45 +5,82 @@
 
 {% block content %}
 <section class="page-section py-24 fade-in d-flex justify-content-center align-items-center">
-    <div class="card shadow-sm p-4" style="width: 100%; max-width: 450px; border-radius: 8px; border: 1px solid #e1e8ed;">
+    <div class="card shadow-sm p-4" style="width: 100%; max-width: 500px; border-radius: 8px; border: 1px solid #e1e8ed;">
         
         <div class="text-center mb-4">
             <h2 style="color: #0b1a30; font-weight: 700; letter-spacing: 0.5px;">Créer un compte</h2>
             <p class="text-muted small">Rejoignez KAMSA AUTO pour gérer vos réservations</p>
         </div>
 
-        {% if erreur %}
-        <div class="alert alert-danger py-2 px-3 small" role="alert" style="border-radius: 6px;">
-            <i class="fa-solid fa-circle-exclamation me-2"></i> {{ erreur }}
-        </div>
-        {% endif %}
-
-        <form method="post" novalidate>
+        <form method="POST" action="{% url 'inscription' %}" enctype="multipart/form-data">
             {% csrf_token %}
             
-            {% for field in form %}
             <div class="mb-3">
-                <label for="{{ field.id_for_label }}" class="form-label small fw-bold" style="color: #4a5568;">
-                    {{ field.label }}
-                </label>
-                
-                <input type="{{ field.field.widget.input_type }}" 
-                       name="{{ field.html_name }}" 
-                       id="{{ field.id_for_label }}" 
-                       class="form-control {% if field.errors %}is-invalid{% endif %}" 
-                       placeholder="Saisissez votre {{ field.label|lower }}"
-                       {% if field.value %}value="{{ field.value }}"{% endif %}
+                <label for="id_username" class="form-label small fw-bold" style="color: #4a5568;">Nom d'utilisateur *</label>
+                <input type="text" name="username" id="id_username" required
+                       class="form-control {% if form.username.errors %}is-invalid{% endif %}" 
+                       placeholder="Ex: mohamed12" value="{{ form.username.value|default:'' }}"
                        style="border-radius: 6px; padding: 10px;">
-                
-                {% if field.errors %}
-                <div class="invalid-feedback small">
-                    {{ field.errors|striptags }}
-                </div>
+                {% if form.username.errors %}
+                    <div class="invalid-feedback small">{{ form.username.errors.0 }}</div>
                 {% endif %}
             </div>
-            {% endfor %}
 
-            <button type="submit" class="btn btn-custom  w-100 mt-2 py-2 fw-bold" style="background-color: #0b1a30; border: none; border-radius: 6px;">
+            <div class="mb-3">
+                <label for="id_email" class="form-label small fw-bold" style="color: #4a5568;">Adresse Email *</label>
+                <input type="email" name="email" id="id_email" required
+                       class="form-control {% if form.email.errors %}is-invalid{% endif %}" 
+                       placeholder="Ex: exemple@domaine.com" value="{{ form.email.value|default:'' }}"
+                       style="border-radius: 6px; padding: 10px;">
+                {% if form.email.errors %}
+                    <div class="invalid-feedback small">{{ form.email.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <div class="mb-3">
+                <label for="id_telephone" class="form-label small fw-bold" style="color: #4a5568;">Numéro de Téléphone *</label>
+                <input type="text" name="telephone" id="id_telephone" required
+                       class="form-control {% if form.telephone.errors %}is-invalid{% endif %}" 
+                       placeholder="Ex: +223 70 00 00 00" value="{{ form.telephone.value|default:'' }}"
+                       style="border-radius: 6px; padding: 10px;">
+                {% if form.telephone.errors %}
+                    <div class="invalid-feedback small">{{ form.telephone.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <div class="mb-3">
+                <label for="id_permis_conduire" class="form-label small fw-bold" style="color: #4a5568;">Photo du Permis de conduire *</label>
+                <input type="file" name="permis_conduire" id="id_permis_conduire" required accept="image/*,.pdf"
+                       class="form-control {% if form.permis_conduire.errors %}is-invalid{% endif %}" 
+                       style="border-radius: 6px; padding: 10px;">
+                {% if form.permis_conduire.errors %}
+                    <div class="invalid-feedback small">{{ form.permis_conduire.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <div class="mb-3">
+                <label for="id_password1" class="form-label small fw-bold" style="color: #4a5568;">Mot de passe *</label>
+                <input type="password" name="password1" id="id_password1" required
+                       class="form-control {% if form.password1.errors %}is-invalid{% endif %}" 
+                       placeholder="Saisissez un mot de passe fort"
+                       style="border-radius: 6px; padding: 10px;">
+                {% if form.password1.errors %}
+                    <div class="invalid-feedback small">{{ form.password1.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <div class="mb-4">
+                <label for="id_password2" class="form-label small fw-bold" style="color: #4a5568;">Confirmation du mot de passe *</label>
+                <input type="password" name="password2" id="id_password2" required
+                       class="form-control {% if form.password2.errors %}is-invalid{% endif %}" 
+                       placeholder="Confirmez votre mot de passe"
+                       style="border-radius: 6px; padding: 10px;">
+                {% if form.password2.errors %}
+                    <div class="invalid-feedback small">{{ form.password2.errors.0 }}</div>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn btn-custom w-100 mt-2 py-2 fw-bold text-white" style="background-color: #0b1a30; border: none; border-radius: 6px;">
                 S'inscrire
             </button>
         </form>

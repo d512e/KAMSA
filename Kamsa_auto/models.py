@@ -7,6 +7,13 @@ from django.core.exceptions import ValidationError
 class Client(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     telephone = models.CharField(max_length=15, unique=True)
+    # AJOUT : Champ pour le fichier du permis de conduire
+    permis_conduire = models.FileField(
+        upload_to='permis/', 
+        blank=False, 
+        null=True, # null=True temporaire pour ne pas bloquer les comptes existants
+        help_text="Fichier du permis de conduire (PDF, JPG, PNG)"
+    )
 
     def __str__(self):
         return self.user.username

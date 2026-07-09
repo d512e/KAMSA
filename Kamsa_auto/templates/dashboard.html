@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 
-<section class="px-6 bg-gray-50 py-24 hidden fade-in">
+<section class="px-6 bg-gray-50 py-24 fade-in">
 
     <!-- BANNIERE -->
     <div class="banner">
@@ -40,6 +40,12 @@
             </div>
 
             <div class="info">
+                 <span>Statut :</span>
+
+                <strong>Client <span class="badge">Vérifié</span></strong>
+            </div>
+
+            <div class="info">
                 <span class="text-gray-500 font-medium">Adhérent depuis :</span>
                 <span class="text-gray-900 font-semibold">{{ request.user.date_joined|date:"d F Y" }}</span>
             </div>
@@ -56,7 +62,7 @@
 
         <!-- RESERVATIONS -->
 
-        <div class="lg:col-span-2 space-y-6">
+        <div class="">
             <h2 class="titre text-xl text-gray-900 ">Mes Réservations Récentes</h2>
             
             <div class="space-y-4">

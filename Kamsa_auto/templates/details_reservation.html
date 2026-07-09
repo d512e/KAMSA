@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="px-6 bg-gray-50 py-24 fade-in flex justify-center">
+    <div class="w-full max-w-3xl bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-gray-200">
+        
+        <div class="border-b pb-4 mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-900 font-montserrat">
+                    Détails de la réservation #KAMSA-{{ reservation.id }}
+                </h1>
+                <p class="text-xs text-gray-400 mt-1">Effectuée le {{ reservation.created_at|date:"d/m/Y à H:i" }}</p>
+            </div>
+            <a href="{% url 'dashboard' %}" class="text-sm font-semibold text-brand-blue hover:underline">
+                &larr; Retour au Dashboard
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            
+            <div class="space-y-4">
+                <h3 class="text-lg font-bold text-gray-800 font-montserrat border-b pb-2">Véhicule loué</h3>
+                <div class="flex gap-4 items-center">
+                    {% if reservation.vehicule.image %}
+                        <img src="{{ reservation.vehicule.image.url }}" alt="{{ reservation.vehicule.nom }}" class="w-24 h-16 object-cover rounded-lg shadow-sm">
+                    {% endif %}
+                    <div>
+                        <h4 class="font-semibold text-gray-900">{{ reservation.vehicule.marque }} {{ reservation.vehicule.nom }}</h4>
+                        <p class="text-sm text-gray-500">{{ reservation.vehicule.get_categorie_display }}</p>
+                        <p class="text-sm font-medium text-gray-700 mt-1">{{ reservation.vehicule.prix_par_jour }} FCFA / jour</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <h3 class="text-lg font-bold text-gray-800 font-montserrat border-b pb-2">Statuts de la demande</h3>
+                
+                <div class="flex justify-between items-center text-sm">
+                    <span class="text-gray-500">Statut réservation :</span>
+                    <span class="font-bold uppercase" style="{% if reservation.status == 'confirmed' %}color: #15803d;{% elif reservation.status == 'pending' %}color: #a16207;{% else %}color: #4b5563;{% endif %}">
+                        {{ reservation.get_status_display }}
+                    </span>
+                </div>
+
+                <div class="flex justify-between items-center text-sm">
+                    <span class="text-gray-500">Statut paiement :</span>
+                    <span class="font-bold uppercase" style="{% if reservation.statut_paiement == 'paid' %}color: #15803d;{% else %}color: #b91c1c;{% endif %}">
+                        {{ reservation.get_statut_paiement_display }}
+                    </span>
+                </div>
+
+                {% if reservation.transaction_id %}
+                <div class="flex justify-between items-center text-sm">
+                    <span class="text-gray-500">ID Transaction :</span>
+                    <span class="font-mono text-gray-700 bg-gray-100 px-2 py-0.5 rounded text-xs">{{ reservation.transaction_id }}</span>
+                </div>
+                {% endif %}
+            </div>
+
+        </div>
+
+        <div class="mt-8 pt-6 border-t border-gray-200">
+            <h3 class="text-lg font-bold text-gray-800 font-montserrat mb-4">Planning & Tarification</h3>
+            
+            <div class="bg-gray-50 rounded-xl p-4 space-y-3 text-sm text-gray-700">
+                <div class="flex justify-between">
+                    <span>Date de début :</span>
+                    <span class="font-semibold text-gray-900">{{ reservation.date_debut|date:"d F Y" }}</span>
+                </div>
+                <div class="flex justify-between">
+                    <span>Date de fin :</span>
+                    <span class="font-semibold text-gray-900">{{ reservation.date_fin|date:"d F Y" }}</span>
+                </div>
+                <div class="flex justify-between border-b pb-2">
+                    <span>Option Chauffeur :</span>
+                    <span class="font-semibold text-gray-900">
+                        {% if reservation.inclut_chauffeur %}Oui (+10 000 FCFA / jour){% else %}Non{% endif %}
+                    </span>
+                </div>
+                <div class="flex justify-between items-center pt-2 text-base">
+                    <span class="font-bold text-gray-900">Montant total réglé :</span>
+                    <span class="text-xl font-bold text-brand-green font-montserrat">{{ reservation.prix_total }} FCFA</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+{% endblock %}

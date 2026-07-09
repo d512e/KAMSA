@@ -176,6 +176,11 @@ def profil_utilisateur(request):
     reservations = Reservation.objects.filter(user=request.user).order_by('-created_at')
     return render(request, 'profil.html', {'reservations': reservations})
 
+@login_required
+def details_reservation(request, reservation_id):
+    # Récupère la réservation si elle appartient à l'utilisateur connecté, sinon renvoie une erreur 404
+    reservation = get_object_or_404(Reservation, id=reservation_id, user=request.user)
+    return render(request, 'details_reservation.html', {'reservation': reservation})
 
 # --- ÉTAPES DU PAIEMENT SIMULÉ DYNAMIQUE ---
 @login_required

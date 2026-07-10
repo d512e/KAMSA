@@ -82,6 +82,7 @@
                         <span class=""
                             style ="{% if reservation.status == 'confirmed' %} color: #15803d;
                                    {% elif reservation.status == 'pending' %} color: #a16207;
+                                   {% elif reservation.status == 'cancelled' %} color: red;
                                    {% else %} background-color: color: #4b5563;{% endif %}">
                           {{ reservation.get_status_display }}
                       </span>
@@ -98,11 +99,17 @@
                                 </p>
                                 
                                 {% if reservation.status == 'pending' or reservation.status == 'confirmed' %}
-                                <div class="flex gap-4 text-xs font-semibold mt-2 sm:mt-0">
-                                    <a href="{% url 'details_reservation' reservation.id %}" class="text-blue-600 hover:text-blue-700 hover:underline">Détails</a>
-                                    <span class="text-gray-300">/</span>
-                                    <a href="#" class="text-red-500 hover:text-red-600 hover:underline">Annulation</a>
-                                </div>
+
+                            <div class="flex gap-4 text-xs font-semibold mt-2 sm:mt-0">
+                                <a href="{% url 'details_reservation' reservation.id %}" class="text-blue-600 hover:text-blue-700 hover:underline">Détails</a>
+                                <span class="text-gray-300">/</span>
+                                
+                                <a href="{% url 'annuler_reservation' reservation.id %}" 
+                                onclick="return confirm('Êtes-vous sûr de vouloir annuler cette réservation ?');" 
+                                class="text-red-500 hover:text-red-600 hover:underline">
+                                    Annulation
+                                </a>
+                            </div>
                                 {% endif %}
                             </div>
                         </div>

@@ -1,239 +1,46 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KAMSA Auto</title>
-
-<style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial, Helvetica, sans-serif;
-}
-
-body{
-    background:#f5f5f5;
-    color:#111827;
-}
-
-/* NAVBAR */
-.navbar{
-    background:white;
-    padding:20px 60px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    border-bottom:1px solid #ddd;
-}
-
-.logo{
-    font-size:30px;
-    font-weight:bold;
-}
-
-.logo span{
-    color:#0f766e;
-}
-
-.nav-links{
-    display:flex;
-    gap:30px;
-}
-
-.nav-links a{
-    text-decoration:none;
-    color:#111827;
-    font-weight:500;
-}
-
-/* SECTION */
-.container{
-    padding:50px 60px;
-}
-
-.title{
-    font-size:48px;
-    margin-bottom:10px;
-}
-
-.subtitle{
-    color:gray;
-    margin-bottom:40px;
-}
-
-/* FILTERS */
-.filters{
-    display:flex;
-    gap:15px;
-    margin-bottom:40px;
-}
-
-.filter-btn{
-    padding:12px 24px;
-    border-radius:30px;
-    border:1px solid #ddd;
-    background:white;
-    cursor:pointer;
-}
-
-.active{
-    background:#0f172a;
-    color:white;
-}
-
-/* CARDS */
-.cards{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-    gap:25px;
-}
-
-.card{
-    background:white;
-    border-radius:18px;
-    overflow:hidden;
-    box-shadow:0 5px 20px rgba(0,0,0,0.05);
-    transition:0.3s;
-}
-
-.card:hover{
-    transform:translateY(-5px);
-}
-
-.card img{
-    width:100%;
-    height:220px;
-    object-fit:cover;
-}
-
-.card-content{
-    padding:20px;
-}
-
-.car-title{
-    font-size:28px;
-    margin-bottom:10px;
-}
-
-.car-info{
-    display:flex;
-    gap:20px;
-    color:gray;
-    margin-bottom:20px;
-}
-
-.bottom{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.price{
-    font-size:32px;
-    color:#065f46;
-    font-weight:bold;
-}
-
-.price span{
-    font-size:16px;
-    color:gray;
-}
-
-.book-btn{
-    background:#0f172a;
-    color:white;
-    border:none;
-    padding:12px 22px;
-    border-radius:10px;
-    cursor:pointer;
-}
-</style>
-</head>
-
-<body>
-
-<!-- NAVBAR -->
-<nav class="navbar">
-    <div class="logo">KAMSA <span>AUTO</span></div>
-
-    <div class="nav-links">
-        <a href="#">Home</a>
-        <a href="#">Vehicles</a>
-        <a href="#">Booking</a>
-        <a href="#">Contact</a>
-    </div>
-</nav>
-
-<!-- CONTENT -->
-<div class="container">
-
-    <h1 class="title">Our Premium Fleet</h1>
-    <p class="subtitle">
-        Select from our curated range of world-class vehicles.
-    </p>
-
-    <!-- FILTERS -->
-    <div class="filters">
-        <button class="filter-btn active">All</button>
-        <button class="filter-btn">Economy</button>
-        <button class="filter-btn">SUV</button>
-        <button class="filter-btn">Luxury</button>
-    </div>
-
-    <!-- CARDS -->
-    <div class="cards">
-
-        <div class="card">
-            <img src="https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=1200" alt="">
-            <div class="card-content">
-                <h2 class="car-title">Eco Hatchback</h2>
-
-                <div class="car-info">
-                    <span>Hybrid</span>
-                    <span>Manual</span>
-                    <span>5 Seats</span>
-                </div>
-
-                <div class="bottom">
-                    <div class="price">
-                        $45 <span>/ day</span>
-                    </div>
-
-                    <button class="book-btn">
-                        BOOK NOW
-                    </button>
+    <div class="corps2 px-6 py1 ">
+        <div class="item1 grid-cols-1">
+            <!-- Text -->
+            <h2 class="font-bold mb-1">Entrer en contact</h2>
+            <p class="text-gray-500">Notre équipe est disponible 24h/24 et 7j/7 pour vous accompagner tout au long de votre voyage.</p> 
+            <div>
+                <h4 class="font-bold mb-1">Notre Siège</h4>
+                <p class="text-gray-500">Rue Pasteur,Rond-point 1 du 3ème pont<br> Sotuba, Bamako.</p>
+            </div>
+            <div>
+                <div>
+                    <h4 class="font-bold mb-1">Service client</h4>
+                    <p class="text-gray-500">+223 72 33 59 29 (Support 24/7)</p>
                 </div>
             </div>
+            <!-- Maps -->
+            <div class="carte-conteneur">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d666.2543024971076!2d-7.93917041443714!3d12.652993271722057!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sfr!2sml!4v1783374396379!5m2!1sfr!2sml" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+              </div>
         </div>
 
-        <div class="card">
-            <img src="https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?q=80&w=1200" alt="">
-            <div class="card-content">
-                <h2 class="car-title">Mountain SUV</h2>
-
-                <div class="car-info">
-                    <span>Diesel</span>
-                    <span>Automatic</span>
-                    <span>7 Seats</span>
-                </div>
-
-                <div class="bottom">
-                    <div class="price">
-                        $85 <span>/ day</span>
-                    </div>
-
-                    <button class="book-btn">
-                        BOOK NOW
-                    </button>
-                </div>
+        <div class="item2 bg-color grid-cols-1">
+            <div class="">
+                <label class="text-xs font-bold uppercase text-gray-500">Nom complet</label>
+                <input type="text" class="w-full px-4 py-3 bg-white border border-gray-200 rounded outline-none focus:border-brand-green">
             </div>
+            <div class="">
+                <label class="text-xs font-bold uppercase text-gray-500">Email</label>
+                <input type="email" class="w-full px-4 py-3 bg-white border border-gray-200 rounded outline-none focus:border-brand-green">
+            </div>
+            <div class="width-100">
+                <label class="text-xs font-bold uppercase text-gray-500">Sujet</label>
+                <select class="w-full px-4 py-3 bg-white border border-gray-200 rounded outline-none focus:border-brand-green">
+                    <option>Renseignements généraux</option>
+                    <option>Partenariat d'entreprise</option>
+                    <option>Assistance routière</option>
+                    <option>Autre</option>
+                </select>
+            </div>
+            <div class="width-100">
+                <label class="text-xs font-bold uppercase text-gray-500">Message</label>
+                <textarea rows="4" class="w-full px-4 py-3 bg-white border border-gray-200 rounded outline-none focus:border-brand-green"></textarea>
+            </div>
+            <button type="submit" class="btn btn-custom">Envoyer</button>
         </div>
-
     </div>
-
-</div>
-
-</body>
-</html>

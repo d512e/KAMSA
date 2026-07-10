@@ -182,6 +182,42 @@ def details_reservation(request, reservation_id):
     reservation = get_object_or_404(Reservation, id=reservation_id, user=request.user)
     return render(request, 'details_reservation.html', {'reservation': reservation})
 
+@login_required
+def annuler_reservation(request, reservation_id):
+    # Récupère la réservation appartenant à l'utilisateur
+    reservation = get_object_or_404(Reservation, id=reservation_id, user=request.user)
+    
+    if reservation.status in ['pending', 'confirmed']:
+        reservation.status = 'cancelled'
+        reservation.save()
+        messages.success(request, f"La réservation #KAMSA-{reservation.id} a été annulée avec succès.")
+    else:
+        messages.error(request, "Cette réservation ne peut plus être annulée.")
+        
+    return redirect('dashboard')
+
+from django.contrib import messages
+from .models import ContacteMessage  # Assurez-vous d'importer le nouveau modèle
+
+def contact(request):
+    if request.method == 'POST':
+        nom = request.POST.get('nom_complet')
+        email = request.POST.get('email')
+        sujet = request.POST.get('sujet')
+        message_texte = request.POST.get('message')
+
+        # Création et sauvegarde du message en base de données
+        ContacteMessage.objects.create(
+            nom_complet=nom,
+            email=email,
+            sujet=sujet,
+            message=message_texte
+        )
+        
+        messages.success(request, "Votre message a bien été envoyé ! Notre équipe vous répondra sous peu.")
+        return redirect('contact')
+
+    return render(request, 'contact.html')
 # --- ÉTAPES DU PAIEMENT SIMULÉ DYNAMIQUE ---
 @login_required
 def page_paiement(request, reservation_id):

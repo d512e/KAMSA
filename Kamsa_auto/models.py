@@ -67,3 +67,19 @@ class Reservation(models.Model):
         return f"{self.user.username} - {self.vehicule.nom}"
 
 
+class ContacteMessage(models.Model):
+    SUJET_CHOICES = [
+        ('renseignements', 'Renseignements généraux'),
+        ('partenariat', 'Partenariat d\'entreprise'),
+        ('assistance', 'Assistance routière'),
+        ('autre', 'Autre'),
+    ]
+
+    nom_complet = models.CharField(max_length=150)
+    email = models.EmailField()
+    sujet = models.CharField(max_length=50, choices=SUJET_CHOICES, default='renseignements')
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Message de {self.nom_complet} - {self.get_sujet_display()}"
